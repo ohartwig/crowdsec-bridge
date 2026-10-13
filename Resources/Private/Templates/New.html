@@ -29,7 +29,7 @@
             <label for="crowdsec-scope"><f:translate extensionName="CrowdsecBridge" key="form.field.scope"/></label>
             <select id="crowdsec-scope" name="scope" required="required" class="form-control">
                 <f:for each="{scopes}" as="scope">
-                    <option value="{scope.value}" selected="{f:if(condition: '{formValues.scope} == \'{scope.value}\'', then: 'selected')}">{scope.value}</option>
+                    <option value="{scope.value}"{f:if(condition: '{formValues.scope} == \'{scope.value}\'', then: ' selected')}>{scope.value}</option>
                 </f:for>
             </select>
         </div>
@@ -38,7 +38,7 @@
             <label for="crowdsec-type"><f:translate extensionName="CrowdsecBridge" key="form.field.type"/></label>
             <select id="crowdsec-type" name="type" required="required" class="form-control">
                 <f:for each="{types}" as="type">
-                    <option value="{type.value}" selected="{f:if(condition: '{formValues.type} == \'{type.value}\'', then: 'selected')}">{type.value}</option>
+                    <option value="{type.value}"{f:if(condition: '{formValues.type} == \'{type.value}\'', then: ' selected')}>{type.value}</option>
                 </f:for>
             </select>
         </div>
@@ -51,11 +51,11 @@
         <div class="form-group">
             <label><f:translate extensionName="CrowdsecBridge" key="form.field.duration"/></label>
             <select name="durationPreset" class="form-control crowdsec-duration-preset" required="required">
-                <option value="1h" selected="{f:if(condition: '{formValues.durationPreset} == \'1h\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.1h"/></option>
-                <option value="24h" selected="{f:if(condition: '{formValues.durationPreset} == \'24h\' || !{formValues.durationPreset}', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.24h"/></option>
-                <option value="7d" selected="{f:if(condition: '{formValues.durationPreset} == \'7d\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.7d"/></option>
-                <option value="30d" selected="{f:if(condition: '{formValues.durationPreset} == \'30d\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.30d"/></option>
-                <option value="custom" selected="{f:if(condition: '{formValues.durationPreset} == \'custom\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.custom"/></option>
+                <option value="1h"{f:if(condition: '{formValues.durationPreset} == \'1h\'', then: ' selected')}><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.1h"/></option>
+                <option value="24h"{f:if(condition: '{formValues.durationPreset} == \'24h\' || !{formValues.durationPreset}', then: ' selected')}><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.24h"/></option>
+                <option value="7d"{f:if(condition: '{formValues.durationPreset} == \'7d\'', then: ' selected')}><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.7d"/></option>
+                <option value="30d"{f:if(condition: '{formValues.durationPreset} == \'30d\'', then: ' selected')}><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.30d"/></option>
+                <option value="custom"{f:if(condition: '{formValues.durationPreset} == \'custom\'', then: ' selected')}><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.custom"/></option>
             </select>
             <input type="text" name="durationCustom" value="{formValues.durationCustom}" placeholder="e.g. 12h" class="form-control crowdsec-duration-custom"/>
         </div>
