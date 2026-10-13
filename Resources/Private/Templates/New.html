@@ -1,0 +1,90 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:cb="http://typo3.org/ns/Koh/CrowdsecBridge/Presentation/ViewHelpers" xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="Content">
+
+    <h1><f:translate extensionName="CrowdsecBridge" key="form.new.headline"/></h1>
+
+    <f:if condition="{validationError}">
+        <div class="alert alert-danger" role="alert">
+            <strong><f:translate extensionName="CrowdsecBridge" key="validation.{validationError.field}.{validationError.reasonCode}"/></strong>
+        </div>
+    </f:if>
+
+    <f:if condition="{duplicateWarning}">
+        <div class="alert alert-warning" role="alert">
+            <cb:translate key="flash.add.duplicate_warning" arguments="{0: 1}"/>
+        </div>
+    </f:if>
+
+    <form action="{be:moduleLink(route: 'system_crowdsec.create')}" method="post" class="crowdsec-form-new">
+        <input type="hidden" name="formToken" value="{formToken}"/>
+        <input type="hidden" name="submitToken" value="{submitToken}"/>
+        <f:if condition="{duplicateWarning}">
+            <input type="hidden" name="confirmDuplicate" value="1"/>
+        </f:if>
+
+        <div class="form-group">
+            <label for="crowdsec-scope"><f:translate extensionName="CrowdsecBridge" key="form.field.scope"/></label>
+            <select id="crowdsec-scope" name="scope" required="required" class="form-control">
+                <f:for each="{scopes}" as="scope">
+                    <option value="{scope.value}" selected="{f:if(condition: '{formValues.scope} == \'{scope.value}\'', then: 'selected')}">{scope.value}</option>
+                </f:for>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="crowdsec-type"><f:translate extensionName="CrowdsecBridge" key="form.field.type"/></label>
+            <select id="crowdsec-type" name="type" required="required" class="form-control">
+                <f:for each="{types}" as="type">
+                    <option value="{type.value}" selected="{f:if(condition: '{formValues.type} == \'{type.value}\'', then: 'selected')}">{type.value}</option>
+                </f:for>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="crowdsec-value"><f:translate extensionName="CrowdsecBridge" key="form.field.value"/></label>
+            <input type="text" id="crowdsec-value" name="value" value="{formValues.value}" required="required" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label><f:translate extensionName="CrowdsecBridge" key="form.field.duration"/></label>
+            <select name="durationPreset" class="form-control crowdsec-duration-preset" required="required">
+                <option value="1h" selected="{f:if(condition: '{formValues.durationPreset} == \'1h\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.1h"/></option>
+                <option value="24h" selected="{f:if(condition: '{formValues.durationPreset} == \'24h\' || !{formValues.durationPreset}', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.24h"/></option>
+                <option value="7d" selected="{f:if(condition: '{formValues.durationPreset} == \'7d\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.7d"/></option>
+                <option value="30d" selected="{f:if(condition: '{formValues.durationPreset} == \'30d\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.30d"/></option>
+                <option value="custom" selected="{f:if(condition: '{formValues.durationPreset} == \'custom\'', then: 'selected')}"><f:translate extensionName="CrowdsecBridge" key="form.duration.preset.custom"/></option>
+            </select>
+            <input type="text" name="durationCustom" value="{formValues.durationCustom}" placeholder="e.g. 12h" class="form-control crowdsec-duration-custom"/>
+        </div>
+
+        <div class="form-group">
+            <label for="crowdsec-reason"><f:translate extensionName="CrowdsecBridge" key="form.field.reason"/></label>
+            <textarea id="crowdsec-reason" name="reason" maxlength="1000" required="required"
+                      class="form-control"
+                      data-crowdsec-reason-counter="#crowdsec-reason-counter"
+                      rows="4">{formValues.reason}</textarea>
+            <small class="form-text text-muted">
+                <f:translate extensionName="CrowdsecBridge" key="form.reason.help"/>
+                — <span id="crowdsec-reason-counter">0 / 1000</span>
+            </small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <f:if condition="{duplicateWarning}">
+                    <f:then><f:translate extensionName="CrowdsecBridge" key="form.confirm_duplicate"/></f:then>
+                    <f:else><f:translate extensionName="CrowdsecBridge" key="form.submit"/></f:else>
+                </f:if>
+            </button>
+            <a href="{be:moduleLink(route: 'system_crowdsec')}" class="btn btn-default">
+                <f:translate extensionName="CrowdsecBridge" key="form.cancel"/>
+            </a>
+        </div>
+    </form>
+
+</f:section>
+
+</html>

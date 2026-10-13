@@ -1,0 +1,29 @@
+# Level and rule set come from the shared standard in koh/dev, so a change
+# there reaches this repository. Only the paths and the deviations below are
+# local — the shared file deliberately omits paths, because a relative path in
+# it would resolve inside vendor/.
+#
+# What was here before: an explicit include of phpstan-strict-rules, which
+# phpstan/extension-installer already registers. PHPStan aborted with "This file
+# is included multiple times" and analysed nothing at all — which went unnoticed
+# because test:phpstan itself was never created either (its rule matched no
+# files until test-tools 1.14.7).
+#
+# checkMissingIterableValueType and checkGenericClassInNonGenericObjectType are
+# gone with them: both were removed in PHPStan 2 and would now be rejected as
+# unknown parameters.
+includes:
+    - vendor/koh/dev-typo3/config/typo3/phpstan.neon
+
+parameters:
+    paths:
+        - Classes
+        - Tests
+    excludePaths:
+        - Tests/**/Fixtures/*
+    # The LAPI payloads are annotated more precisely than the wire format can
+    # guarantee, so PHPDoc types are not treated as certain here.
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+          path: Tests/*

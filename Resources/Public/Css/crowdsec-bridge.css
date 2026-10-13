@@ -1,0 +1,162 @@
+/* Backend module styles for koh/crowdsec-bridge.
+   Aligned with TYPO3 14 backend Bootstrap variables; no external CSS framework added. */
+
+.crowdsec-bridge-module {
+    padding: 0.5rem 1rem 2rem;
+}
+
+.crowdsec-status {
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+
+.crowdsec-status--ok {
+    color: #1e6f1e;
+    background-color: #d6f5d6;
+    border-color: #b2e0b2;
+}
+
+.crowdsec-status--error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.crowdsec-status__timestamp {
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: normal;
+    opacity: 0.75;
+}
+
+.crowdsec-quickcheck {
+    margin: 1rem 0 1.5rem;
+    padding: 1rem;
+    background: #f6f7fa;
+    border-radius: 0.25rem;
+}
+
+.crowdsec-quickcheck__form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.5rem;
+}
+
+.crowdsec-quickcheck__form label {
+    margin: 0;
+    font-weight: 600;
+}
+
+.crowdsec-quickcheck__form input[type="text"] {
+    min-width: 18rem;
+    padding: 0.375rem 0.5rem;
+}
+
+.crowdsec-filter__form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.crowdsec-filter__form label {
+    margin: 0;
+}
+
+.crowdsec-table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.crowdsec-table td code {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.2rem;
+    font-size: 0.95em;
+}
+
+.crowdsec-pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.crowdsec-pagination__current {
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.crowdsec-empty {
+    margin: 1rem 0;
+}
+
+/* ============ Feature 003: tab navigation + alert detail ============ */
+
+.crowdsec-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.crowdsec-tabs__item {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 2px solid transparent;
+    font-weight: 500;
+}
+
+.crowdsec-tabs__item:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.crowdsec-tabs__item--active {
+    border-bottom-color: #1f8fff;
+    color: #1f8fff;
+    font-weight: 600;
+}
+
+.crowdsec-detail-header {
+    margin: 1rem 0 1.5rem;
+}
+
+.crowdsec-alert-source dl {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: 0.4rem 1rem;
+    margin: 0;
+}
+
+.crowdsec-alert-source dt {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.crowdsec-alert-source dd {
+    margin: 0;
+}
+
+.crowdsec-alert-labels ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.crowdsec-alert-labels li {
+    padding: 0.2rem 0;
+}
+
+.crowdsec-alert-decisions {
+    margin-top: 2rem;
+}
+
+.crowdsec-overflow-notice {
+    margin-top: 1rem;
+    font-style: italic;
+}

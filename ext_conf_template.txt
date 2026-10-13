@@ -1,0 +1,17 @@
+# cat=basic; type=string; label=LAPI Base URL:Full URL to the CrowdSec Local API (e.g. http://crowdsec:8080). Must be reachable from the TYPO3 container.
+lapiBaseUrl = http://crowdsec:8080
+
+# cat=basic; type=int+; label=LAPI HTTP Timeout (seconds):Request timeout for all LAPI calls. Default 5 is safe for local Docker setups.
+lapiTimeout = 5
+
+# cat=advanced; type=boolean; label=Allow deleting non-typo3 decisions (admin only):If enabled, TYPO3 admins (not regular operators) can also delete decisions created by CrowdSec or cscli. Off by default. Regular operator users are never allowed to delete foreign decisions regardless of this setting.
+allowDeleteForeignDecisions = 0
+
+# cat=basic; type=string; label=Operator group UIDs:Comma-separated list of be_groups.uid values whose members may add and delete TYPO3-origin decisions. Empty means no group confers operator rights (admins always have them). Matching by group title was removed in 0.4.3 because group titles are mutable and forgeable.
+operatorGroupIds =
+
+# cat=basic; type=boolean; label=Cache: enable decision-list cache:Requires moselwal/keyvalue-store. When enabled, repeated decision-list requests are served from the cache. Cache is invalidated automatically after every successful add/delete. Without moselwal/keyvalue-store installed, this setting has no effect.
+cacheEnabled = 1
+
+# cat=basic; type=int+; label=Cache: TTL in seconds:Cache lifetime in seconds. Valid range 1-300; out-of-range values are clamped to the nearest boundary. Default 10 is a good balance between LAPI load and data freshness.
+cacheTtl = 10

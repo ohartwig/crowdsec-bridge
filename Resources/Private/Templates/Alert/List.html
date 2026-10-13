@@ -1,0 +1,132 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:cb="http://typo3.org/ns/Koh/CrowdsecBridge/Presentation/ViewHelpers" xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="Content">
+
+    <h1><f:translate extensionName="CrowdsecBridge" key="alert.list.headline"/></h1>
+
+    <!-- Status banner -->
+    <div class="crowdsec-status crowdsec-status--{f:if(condition: status.isReachable, then: 'ok', else: 'error')}">
+        <f:if condition="{status.isReachable}">
+            <f:then>
+                <f:if condition="{status.bouncerName}">
+                    <f:then>
+                        <cb:translate key="status.connected" arguments="{0: status.version, 1: status.bouncerName}"/>
+                    </f:then>
+                    <f:else>
+                        <cb:translate key="status.connected_no_bouncer" arguments="{0: status.version}"/>
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <cb:translate key="status.unreachable" arguments="{0: '{status.checkedAt -> f:format.date(format: \'H:i:s\')}'}"/>
+            </f:else>
+        </f:if>
+    </div>
+
+    <!-- Filter -->
+    <section class="crowdsec-filter">
+        <form action="{be:moduleLink(route: 'system_crowdsec.alerts')}" method="get" class="crowdsec-filter__form">
+            <input type="hidden" name="token" value="{routeTokens.alerts}"/>
+            <input type="hidden" name="page" value="1"/>
+
+            <label for="crowdsec-alert-scope"><f:translate extensionName="CrowdsecBridge" key="alert.filter.scope_label"/></label>
+            <select name="scope" id="crowdsec-alert-scope">
+                <option value=""><f:translate extensionName="CrowdsecBridge" key="filter.all_option"/></option>
+                <option value="Ip" selected="{f:if(condition: '{alertListView.appliedFilter.scope.value} == \'Ip\'', then: 'selected')}">Ip</option>
+                <option value="Range" selected="{f:if(condition: '{alertListView.appliedFilter.scope.value} == \'Range\'', then: 'selected')}">Range</option>
+                <option value="Country" selected="{f:if(condition: '{alertListView.appliedFilter.scope.value} == \'Country\'', then: 'selected')}">Country</option>
+                <option value="As" selected="{f:if(condition: '{alertListView.appliedFilter.scope.value} == \'As\'', then: 'selected')}">As</option>
+            </select>
+
+            <label for="crowdsec-alert-scenario"><f:translate extensionName="CrowdsecBridge" key="alert.filter.scenario_label"/></label>
+            <input type="text" id="crowdsec-alert-scenario" name="scenario" value="{alertListView.appliedFilter.scenarioContains}" placeholder="ssh"/>
+
+            <button type="submit" class="btn btn-default">
+                <f:translate extensionName="CrowdsecBridge" key="alert.filter.submit"/>
+            </button>
+            <a href="{be:moduleLink(route: 'system_crowdsec.alerts')}" class="btn btn-link">
+                <f:translate extensionName="CrowdsecBridge" key="alert.filter.reset"/>
+            </a>
+        </form>
+    </section>
+
+    <!-- Table -->
+    <f:if condition="{alertListView}">
+        <f:then>
+            <f:if condition="{alertListView.empty}">
+                <f:then>
+                    <div class="crowdsec-empty alert alert-info">
+                        <f:if condition="{alertListView.filtered}">
+                            <f:then><f:translate extensionName="CrowdsecBridge" key="alert.empty.no_filter_match"/></f:then>
+                            <f:else><f:translate extensionName="CrowdsecBridge" key="alert.empty.no_alerts"/></f:else>
+                        </f:if>
+                    </div>
+                </f:then>
+                <f:else>
+                    <table class="crowdsec-table table table-striped">
+                        <thead>
+                            <tr>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.id"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.scenario"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.source_scope"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.source_value"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.created_at"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="alert.table.header.decision_count"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{alertListView.alerts}" as="alert">
+                                <tr>
+                                    <td>
+                                        <a href="{be:moduleLink(route: 'system_crowdsec.alertDetail', arguments: {id: alert.id, returnPage: alertListView.pagination.currentPage, returnScope: alertListView.appliedFilter.scope.value, returnScenario: alertListView.appliedFilter.scenarioContains})}">
+                                            #{alert.id}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <f:if condition="{alert.scenario}">
+                                            <f:then><span title="{alert.scenario}">{alert.scenarioTruncated}</span></f:then>
+                                            <f:else><em class="text-muted"><f:translate extensionName="CrowdsecBridge" key="scenario.unknown"/></em></f:else>
+                                        </f:if>
+                                    </td>
+                                    <td>{alert.sourceScope}</td>
+                                    <td><code title="{alert.sourceValue}">{alert.sourceValueTruncated}</code></td>
+                                    <td><f:format.date format="Y-m-d H:i:s">{alert.createdAt}</f:format.date></td>
+                                    <td>{alert.decisionCount}</td>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+
+                    <nav class="crowdsec-pagination" aria-label="Pagination">
+                        <f:if condition="!{alertListView.pagination.firstPage}">
+                            <a class="btn btn-default" href="{be:moduleLink(route: 'system_crowdsec.alerts', arguments: {page: alertListView.pagination.previousPage, scope: alertListView.appliedFilter.scope.value, scenario: alertListView.appliedFilter.scenarioContains})}">
+                                <f:translate extensionName="CrowdsecBridge" key="pagination.previous"/>
+                            </a>
+                        </f:if>
+                        <span class="crowdsec-pagination__current">
+                            <cb:translate key="pagination.page_label" arguments="{0: alertListView.pagination.currentPage}"/>
+                        </span>
+                        <f:if condition="{alertListView.alerts -> f:count()} == 50">
+                            <a class="btn btn-default" href="{be:moduleLink(route: 'system_crowdsec.alerts', arguments: {page: alertListView.pagination.nextPage, scope: alertListView.appliedFilter.scope.value, scenario: alertListView.appliedFilter.scenarioContains})}">
+                                <f:translate extensionName="CrowdsecBridge" key="pagination.next"/>
+                            </a>
+                        </f:if>
+                    </nav>
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <div class="crowdsec-empty alert alert-warning">
+                <f:if condition="{status.lastError} == 'no_machine_account'">
+                    <f:then><f:translate extensionName="CrowdsecBridge" key="status.no_machine_account"/></f:then>
+                    <f:else><f:translate extensionName="CrowdsecBridge" key="status.data_not_loaded"/></f:else>
+                </f:if>
+            </div>
+        </f:else>
+    </f:if>
+
+</f:section>
+
+</html>

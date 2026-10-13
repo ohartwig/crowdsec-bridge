@@ -1,0 +1,147 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Koh\CrowdsecBridge\:
+    resource: '../Classes/*'
+
+  # ---------- Domain Contracts → Infrastructure bindings ----------
+
+  Koh\CrowdsecBridge\Domain\Contract\LapiClientInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClient
+
+  Koh\CrowdsecBridge\Domain\Contract\DecisionRepositoryInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Repository\LapiDecisionRepository
+
+  Koh\CrowdsecBridge\Domain\Contract\ReadAuditLoggerInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Audit\SysLogReadAuditLogger
+
+  Koh\CrowdsecBridge\Domain\Contract\WriteAuditLoggerInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Audit\SysLogWriteAuditLogger
+
+  Koh\CrowdsecBridge\Domain\Contract\DecisionWriterInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Repository\LapiDecisionWriter
+
+  Koh\CrowdsecBridge\Domain\Contract\AlertRepositoryInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Repository\LapiAlertRepository
+
+  Koh\CrowdsecBridge\Domain\Contract\LapiStatusRepositoryInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Repository\LapiStatusRepository
+
+  Koh\CrowdsecBridge\Domain\Contract\ClockInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Time\SystemClock
+
+  Koh\CrowdsecBridge\Domain\Contract\OperatorPermissionsResolverInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Permissions\OperatorPermissionsFactory
+
+  Koh\CrowdsecBridge\Application\Contract\FormTokenValidatorInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Security\BackendFormTokenValidator
+
+  # Default no-op cache invalidator (Constitution null-adapter pattern).
+  # Overridden in Services.php to the KVS-backed implementation when
+  # moselwal/keyvalue-store is installed AND cacheEnabled=1.
+  Koh\CrowdsecBridge\Domain\Contract\DecisionCacheInvalidatorInterface:
+    alias: Koh\CrowdsecBridge\Infrastructure\Cache\NullDecisionCacheInvalidator
+
+  # ---------- LapiHttpClient explicit arguments ----------
+  # The API key is resolved at runtime via LapiKeyResolver (Constitution principle IV).
+  # The baseUrl comes from the extension configuration in ext_conf_template.txt.
+
+  Koh\CrowdsecBridge\Infrastructure\Http\LapiKeyResolver: ~
+  Koh\CrowdsecBridge\Infrastructure\Http\LapiMachineCredentialsResolver: ~
+
+  # PSR-17 stream factory for LapiHttpClient. Guzzle's HttpFactory ships with
+  # TYPO3 via guzzlehttp/psr7 and implements both Request- and StreamFactory.
+  GuzzleHttp\Psr7\HttpFactory: ~
+
+  # Logs the machine (watcher) account in and holds the JWT. Deliberately not
+  # routed through LapiHttpClient: that class authenticates its requests with
+  # what this one produces, and having it call back in would be a cycle.
+  Koh\CrowdsecBridge\Infrastructure\Http\LapiMachineTokenProvider:
+    arguments:
+      $httpClient: '@crowdsec_bridge.http_client'
+      $requestFactory: '@TYPO3\CMS\Core\Http\RequestFactory'
+      $streamFactory: '@GuzzleHttp\Psr7\HttpFactory'
+      $credentialsResolver: '@Koh\CrowdsecBridge\Infrastructure\Http\LapiMachineCredentialsResolver'
+      $clock: '@Koh\CrowdsecBridge\Infrastructure\Time\SystemClock'
+      $baseUrl: '%env(default:crowdsec_bridge.default_base_url:CROWDSEC_LAPI_BASE_URL)%'
+
+  # Two clients, because CrowdSec has two doors and each route only opens one of
+  # them. The bouncer key (X-Api-Key) is entitled to GET /v1/decisions and to
+  # nothing else the module calls; /v1/heartbeat, /v1/alerts, /v1/alerts/{id} and
+  # DELETE /v1/decisions/{id} sit behind the JWT middleware and answer 401 to it.
+  # Which door a route wants is a fact about the route, so it is decided here
+  # rather than remembered at each call site.
+
+  # The default instance is the bouncer one — it is what LapiClientInterface
+  # resolves to, and the read path must keep working on an installation that has
+  # no machine account at all.
+  Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClient:
+    arguments:
+      $httpClient: '@crowdsec_bridge.http_client'
+      $requestFactory: '@TYPO3\CMS\Core\Http\RequestFactory'
+      $streamFactory: '@GuzzleHttp\Psr7\HttpFactory'
+      $keyResolver: '@Koh\CrowdsecBridge\Infrastructure\Http\LapiKeyResolver'
+      $baseUrl: '%env(default:crowdsec_bridge.default_base_url:CROWDSEC_LAPI_BASE_URL)%'
+      $credential: !php/enum Koh\CrowdsecBridge\Domain\ValueObject\LapiCredential::BouncerApiKey
+
+  crowdsec_bridge.lapi_client.machine:
+    class: Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClient
+    arguments:
+      $httpClient: '@crowdsec_bridge.http_client'
+      $requestFactory: '@TYPO3\CMS\Core\Http\RequestFactory'
+      $streamFactory: '@GuzzleHttp\Psr7\HttpFactory'
+      $keyResolver: '@Koh\CrowdsecBridge\Infrastructure\Http\LapiKeyResolver'
+      $baseUrl: '%env(default:crowdsec_bridge.default_base_url:CROWDSEC_LAPI_BASE_URL)%'
+      $credential: !php/enum Koh\CrowdsecBridge\Domain\ValueObject\LapiCredential::MachineToken
+      $machineTokens: '@Koh\CrowdsecBridge\Infrastructure\Http\LapiMachineTokenProvider'
+
+  # ---------- Which repository speaks as which identity ----------
+
+  Koh\CrowdsecBridge\Infrastructure\Repository\LapiAlertRepository:
+    arguments:
+      $lapi: '@crowdsec_bridge.lapi_client.machine'
+
+  Koh\CrowdsecBridge\Infrastructure\Repository\LapiStatusRepository:
+    arguments:
+      $lapi: '@crowdsec_bridge.lapi_client.machine'
+
+  Koh\CrowdsecBridge\Infrastructure\Repository\LapiDecisionWriter:
+    arguments:
+      $lapi: '@crowdsec_bridge.lapi_client.machine'
+
+  # LapiDecisionRepository is left to autowiring: it reads decisions, which is
+  # bouncer territory, and LapiClientInterface aliases the bouncer client.
+
+  # GuzzleClientFactory *erzeugt* einen Client, ist aber selbst keiner. Direkt
+  # als Argument uebergeben ergab
+  #   Argument #1 ($httpClient) must be of type Psr\Http\Client\ClientInterface,
+  #   TYPO3\CMS\Core\Http\Client\GuzzleClientFactory given
+  # — der Dienst liess sich nie instanziieren. Hier die Fabrik als Fabrik.
+  # Since 0.9: through LapiHttpClientFactory, which trusts CROWDSEC_LAPI_CA_FILE
+  # for the LAPI connection alone when it is set, and otherwise hands out
+  # TYPO3's own client exactly as before.
+  Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClientFactory: ~
+  crowdsec_bridge.http_client:
+    class: Psr\Http\Client\ClientInterface
+    factory: ['@Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClientFactory', 'create']
+
+  # ---------- Presentation: Backend Controller ----------
+
+  Koh\CrowdsecBridge\Presentation\Backend\Controller\DecisionController:
+    public: true
+
+parameters:
+  # Ein *Parameter*, kein env()-Vorgabewert. `%env(default:X:VAR)%` erwartet in
+  # X den Namen eines Container-Parameters, aus dem der Rueckfall kommt, wenn
+  # VAR nicht gesetzt ist. `env(X)` definiert dagegen den Vorgabewert einer
+  # Umgebungsvariablen namens X — etwas anderes, das hier nie gelesen wurde.
+  #
+  # Die Folge war kein Fehler beim Container-Bau, sondern beim ersten Zugriff:
+  # sobald LapiHttpClient instanziiert wurde und CROWDSEC_LAPI_BASE_URL nicht
+  # gesetzt war, warf der Container
+  #   Invalid env fallback in "default:crowdsec_bridge.default_base_url:…":
+  #   parameter "crowdsec_bridge.default_base_url" not found.
+  crowdsec_bridge.default_base_url: 'http://crowdsec:8080'

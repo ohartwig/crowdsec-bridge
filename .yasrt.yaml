@@ -1,0 +1,8 @@
+# Release configuration for yasrt; the shared defaults come from the CI
+# component. Only what this repository does differently is stated here.
+product: extension
+versioning:
+  # The package continues moselwal/crowdsec-bridge, whose last release was
+  # 0.9.9, under a new name and a fresh history. 0.10.0 keeps the line instead
+  # of claiming a 1.0.0 the module has not earned yet.
+  initial: "0.10.0"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Contract tests: they talk to a real CrowdSec LAPI over HTTP.
+
+    This is a deliberate extension of the test strategy, not an exception
+    slipped past it. The Constitution (.specify/memory/constitution.md,
+    "Entwicklungsworkflow & Qualitätssicherung") says functional tests must run
+    the HTTP client against static PSR-18 mocks and that no real CrowdSec
+    container belongs in the pipeline. That rule stands, unedited, and the
+    Functional suite still honours it — the mocks are fast, offline and
+    deterministic, and nothing here replaces them.
+
+    What the rule does not cover is the question the mocks cannot be asked. A
+    hand-rolled mock answers whatever the person who wrote it believed CrowdSec
+    answers. Fifty-two test files agree with that belief and would go on
+    agreeing with it after CrowdSec changed its mind — the suite is green by
+    construction, because both sides of the comparison come from the same
+    author. The only thing that can contradict it is CrowdSec.
+
+    Hence a separate suite, a separate configuration and a separate CI job.
+    It is not called "Functional", it does not run under the Functional
+    configuration, and it cannot be started by accident: without
+    CROWDSEC_CONTRACT_TESTS=1 every test in it skips. Widening the
+    Constitution's testing section to name this layer is the owner's call, not
+    something a passing merge request should decide.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd"
+         bootstrap="../vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         cacheResult="false"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         requireCoverageMetadata="false"
+>
+    <testsuites>
+        <testsuite name="Contract">
+            <directory>Contract</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="display_errors" value="1"/>
+    </php>
+</phpunit>

@@ -1,0 +1,250 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:cb="http://typo3.org/ns/Koh/CrowdsecBridge/Presentation/ViewHelpers" xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="Content">
+
+    <h1><f:translate extensionName="CrowdsecBridge" key="module.title.list"/></h1>
+
+    <f:if condition="{permissions.canWrite}">
+        <p class="crowdsec-write-actions">
+            <a href="{be:moduleLink(route: 'system_crowdsec.new')}" class="btn btn-primary">
+                <f:translate extensionName="CrowdsecBridge" key="action.add.button"/>
+            </a>
+        </p>
+    </f:if>
+
+    <!-- ============================== Status banner ============================== -->
+    <div class="crowdsec-status crowdsec-status--{f:if(condition: status.isReachable, then: 'ok', else: 'error')}">
+        <f:if condition="{status.isReachable}">
+            <f:then>
+                <f:if condition="{status.bouncerName}">
+                    <f:then>
+                        <cb:translate key="status.connected" arguments="{0: status.version, 1: status.bouncerName}"/>
+                    </f:then>
+                    <f:else>
+                        <cb:translate key="status.connected_no_bouncer" arguments="{0: status.version}"/>
+                    </f:else>
+                </f:if>
+            </f:then>
+            <f:else>
+                <f:switch expression="{status.lastError}">
+                    <f:case value="no_machine_account"><f:translate extensionName="CrowdsecBridge" key="status.no_machine_account"/></f:case>
+                    <f:case value="auth_failed"><f:translate extensionName="CrowdsecBridge" key="status.auth_failed"/></f:case>
+                    <f:case value="invalid_response"><f:translate extensionName="CrowdsecBridge" key="status.invalid_response"/></f:case>
+                    <f:defaultCase><cb:translate key="status.unreachable" arguments="{0: '{status.checkedAt -> f:format.date(format: \'H:i:s\')}'}"/></f:defaultCase>
+                </f:switch>
+            </f:else>
+        </f:if>
+        <small class="crowdsec-status__timestamp">
+            <cb:translate key="status.last_check" arguments="{0: '{status.checkedAt -> f:format.date(format: \'Y-m-d H:i:s\')}'}"/>
+        </small>
+    </div>
+
+    <!-- ============================== Quick-Check Panel ============================== -->
+    <section class="crowdsec-quickcheck">
+        <h2><f:translate extensionName="CrowdsecBridge" key="quickcheck.headline"/></h2>
+        <form action="{be:moduleLink(route: 'system_crowdsec.check')}" method="get" class="crowdsec-quickcheck__form">
+            <input type="hidden" name="token" value="{routeTokens.check}"/>
+            <label for="crowdsec-ip-input">
+                <f:translate extensionName="CrowdsecBridge" key="quickcheck.label"/>
+            </label>
+            <input
+                type="text"
+                id="crowdsec-ip-input"
+                name="ip"
+                value="{ipCheckInputValue}"
+                placeholder="{f:translate(extensionName: 'CrowdsecBridge', key: 'quickcheck.placeholder')}"
+                required="required"
+            />
+            <button type="submit" class="btn btn-primary">
+                <f:translate extensionName="CrowdsecBridge" key="quickcheck.submit"/>
+            </button>
+        </form>
+
+        <f:if condition="{ipCheckError}">
+            <div class="alert alert-danger" role="alert">
+                <f:switch expression="{ipCheckError}">
+                    <f:case value="invalid_ip"><f:translate extensionName="CrowdsecBridge" key="quickcheck.invalid_ip"/></f:case>
+                    <f:case value="lapi_error"><f:translate extensionName="CrowdsecBridge" key="quickcheck.error_lapi"/></f:case>
+                </f:switch>
+            </div>
+        </f:if>
+
+        <f:if condition="{ipCheckResult}">
+            <div class="alert alert-{f:if(condition: ipCheckResult.wasBanned, then: 'warning', else: 'success')}" role="status">
+                <f:if condition="{ipCheckResult.wasBanned}">
+                    <f:then>
+                        <f:variable name="remaining"><cb:translate key="{ipCheckResult.remainingTime.locallangKey}" arguments="{ipCheckResult.remainingTime.templateArguments}"/></f:variable>
+                        <cb:translate key="quickcheck.banned"
+                            arguments="{0: ipCheckResult.matchedDecisionId.value, 1: remaining}"
+                        />
+                    </f:then>
+                    <f:else>
+                        <f:translate extensionName="CrowdsecBridge" key="quickcheck.not_banned"/>
+                    </f:else>
+                </f:if>
+            </div>
+        </f:if>
+    </section>
+
+    <!-- ============================== Filter Form ============================== -->
+    <section class="crowdsec-filter">
+        <form action="{be:moduleLink(route: 'system_crowdsec')}" method="get" class="crowdsec-filter__form">
+            <input type="hidden" name="token" value="{routeTokens.list}"/>
+            <input type="hidden" name="page" value="1"/>
+
+            <label for="crowdsec-filter-scope"><f:translate extensionName="CrowdsecBridge" key="filter.scope_label"/></label>
+            <select name="scope" id="crowdsec-filter-scope">
+                <option value=""><f:translate extensionName="CrowdsecBridge" key="filter.all_option"/></option>
+                <option value="Ip" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Ip\'', then: 'selected')}">Ip</option>
+                <option value="Range" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Range\'', then: 'selected')}">Range</option>
+                <option value="Country" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Country\'', then: 'selected')}">Country</option>
+                <option value="As" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'As\'', then: 'selected')}">As</option>
+            </select>
+
+            <label for="crowdsec-filter-type"><f:translate extensionName="CrowdsecBridge" key="filter.type_label"/></label>
+            <select name="type" id="crowdsec-filter-type">
+                <option value=""><f:translate extensionName="CrowdsecBridge" key="filter.all_option"/></option>
+                <option value="ban" selected="{f:if(condition: '{listView.appliedFilter.type.value} == \'ban\'', then: 'selected')}">ban</option>
+                <option value="captcha" selected="{f:if(condition: '{listView.appliedFilter.type.value} == \'captcha\'', then: 'selected')}">captcha</option>
+            </select>
+
+            <label for="crowdsec-filter-origin"><f:translate extensionName="CrowdsecBridge" key="filter.origin_label"/></label>
+            <input type="text" id="crowdsec-filter-origin" name="origin" value="{listView.appliedFilter.origin}"/>
+
+            <button type="submit" class="btn btn-default">
+                <f:translate extensionName="CrowdsecBridge" key="filter.submit"/>
+            </button>
+            <a href="{be:moduleLink(route: 'system_crowdsec')}" class="btn btn-link">
+                <f:translate extensionName="CrowdsecBridge" key="filter.reset"/>
+            </a>
+        </form>
+    </section>
+
+    <!-- ============================== Decisions Table ============================== -->
+    <f:if condition="{listView}">
+        <f:then>
+            <f:if condition="{listView.empty}">
+                <f:then>
+                    <div class="crowdsec-empty alert alert-info">
+                        <f:if condition="{listView.filtered}">
+                            <f:then><f:translate extensionName="CrowdsecBridge" key="empty.no_filter_match"/></f:then>
+                            <f:else><f:translate extensionName="CrowdsecBridge" key="empty.no_decisions"/></f:else>
+                        </f:if>
+                    </div>
+                </f:then>
+                <f:else>
+                    <table class="crowdsec-table table table-striped">
+                        <thead>
+                            <tr>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.id"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.scope"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.type"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.value"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.remaining"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.origin"/></th>
+                                <th><f:translate extensionName="CrowdsecBridge" key="table.header.scenario"/></th>
+                                <f:if condition="{permissions.canDeleteOwn}">
+                                    <th><f:translate extensionName="CrowdsecBridge" key="action.delete.button"/></th>
+                                </f:if>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{listView.decisions}" as="decision">
+                                <tr>
+                                    <td>#{decision.id}</td>
+                                    <td>{decision.scope}</td>
+                                    <td>{decision.type}</td>
+                                    <td><code>{decision.value}</code></td>
+                                    <td>
+                                        <cb:translate key="{decision.remainingTime.locallangKey}"
+                                            arguments="{decision.remainingTime.templateArguments}"
+                                        />
+                                    </td>
+                                    <td>{decision.origin}</td>
+                                    <td>
+                                        <f:if condition="{decision.scenario}">
+                                            <f:then><span title="{decision.scenario}">{decision.scenario}</span></f:then>
+                                            <f:else><em class="text-muted"><f:translate extensionName="CrowdsecBridge" key="scenario.unknown"/></em></f:else>
+                                        </f:if>
+                                    </td>
+                                    <f:if condition="{permissions.canDeleteOwn}">
+                                        <td>
+                                            <f:variable name="isOwn" value="{f:if(condition: '{decision.origin} == \'typo3\'', then: 1, else: 0)}"/>
+                                            <f:if condition="{isOwn}">
+                                                <f:then>
+                                                    <form action="{be:moduleLink(route: 'system_crowdsec.delete')}" method="post" class="crowdsec-delete-form">
+                                                        <input type="hidden" name="decisionId" value="{decision.id}"/>
+                                                        <input type="hidden" name="formToken" value="{deleteFormToken}"/>
+                                                        <button type="button"
+                                                                class="btn btn-warning btn-sm"
+                                                                data-crowdsec-delete="1"
+                                                                data-modal-title="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.title')}"
+                                                                data-modal-body="{cb:translate(key: 'modal.delete.body', arguments: {0: decision.id, 1: decision.scope, 2: decision.value})}"
+                                                                data-modal-confirm="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.confirm')}"
+                                                                data-modal-cancel="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.cancel')}">
+                                                            <f:translate extensionName="CrowdsecBridge" key="action.delete.button"/>
+                                                        </button>
+                                                    </form>
+                                                </f:then>
+                                                <f:else>
+                                                    <f:if condition="{permissions.canDeleteForeign}">
+                                                        <f:then>
+                                                            <form action="{be:moduleLink(route: 'system_crowdsec.delete')}" method="post" class="crowdsec-delete-form">
+                                                                <input type="hidden" name="decisionId" value="{decision.id}"/>
+                                                                <input type="hidden" name="formToken" value="{deleteFormToken}"/>
+                                                                <button type="button"
+                                                                        class="btn btn-danger btn-sm"
+                                                                        data-crowdsec-delete="1"
+                                                                        data-foreign-origin="1"
+                                                                        data-modal-title="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.title')}"
+                                                                        data-modal-body="{cb:translate(key: 'modal.delete.foreign_warning', arguments: {0: decision.origin})}"
+                                                                        data-modal-confirm="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.confirm')}"
+                                                                        data-modal-cancel="{f:translate(extensionName: 'CrowdsecBridge', key: 'modal.delete.cancel')}">
+                                                                    <f:translate extensionName="CrowdsecBridge" key="action.delete.button"/>
+                                                                </button>
+                                                            </form>
+                                                        </f:then>
+                                                        <f:else>
+                                                            <span class="text-muted"><f:translate extensionName="CrowdsecBridge" key="table.foreign_origin_protected"/></span>
+                                                        </f:else>
+                                                    </f:if>
+                                                </f:else>
+                                            </f:if>
+                                        </td>
+                                    </f:if>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+
+                    <!-- ============================== Pagination ============================== -->
+                    <nav class="crowdsec-pagination" aria-label="Pagination">
+                        <f:if condition="!{listView.pagination.firstPage}">
+                            <a class="btn btn-default" href="{be:moduleLink(route: 'system_crowdsec', arguments: {page: listView.pagination.previousPage, scope: listView.appliedFilter.scope.value, type: listView.appliedFilter.type.value, origin: listView.appliedFilter.origin})}">
+                                <f:translate extensionName="CrowdsecBridge" key="pagination.previous"/>
+                            </a>
+                        </f:if>
+                        <span class="crowdsec-pagination__current">
+                            <cb:translate key="pagination.page_label" arguments="{0: listView.pagination.currentPage}"/>
+                        </span>
+                        <f:if condition="{listView.decisions -> f:count()} == 50">
+                            <a class="btn btn-default" href="{be:moduleLink(route: 'system_crowdsec', arguments: {page: listView.pagination.nextPage, scope: listView.appliedFilter.scope.value, type: listView.appliedFilter.type.value, origin: listView.appliedFilter.origin})}">
+                                <f:translate extensionName="CrowdsecBridge" key="pagination.next"/>
+                            </a>
+                        </f:if>
+                    </nav>
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <div class="crowdsec-empty alert alert-warning">
+                <f:translate extensionName="CrowdsecBridge" key="status.data_not_loaded"/>
+            </div>
+        </f:else>
+    </f:if>
+
+</f:section>
+
+</html>
