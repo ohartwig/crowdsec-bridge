@@ -1,3 +1,21 @@
+## [0.10.0] (2026-10-13)
+
+### :boom: BREAKING CHANGES
+
+* the package is koh/crowdsec-bridge and the namespace Koh\CrowdsecBridge. An installation replaces moselwal/crowdsec-bridge with koh/crowdsec-bridge; code that referenced Moselwal\CrowdsecBridge classes has to follow.
+
+### :sparkles: Features
+
+* continue moselwal/crowdsec-bridge as koh/crowdsec-bridge ([f7a62c5](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/f7a62c5573a19a16d5650efc2425180dd4c2b49c))
+
+### :bug: Fixes
+
+* **backend:** preselect only the applied filter option ([cd4f14a](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/cd4f14a3bf49c204efe6c3c1fe0627634db90365))
+
+### :repeat: Chores
+
+* name mail@ as the maintainer address ([2c23d8a](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/2c23d8aa533223b51719cf79785c052f0b0e3c46))
+
 ## [0.9.9](https://git.ole-hartwig.eu/development/moselwal/crowdsec-bridge/compare/v0.9.8...v0.9.9) (2026-10-13)
 
 ### :bug: Fixes
