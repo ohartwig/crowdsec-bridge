@@ -122,6 +122,68 @@ final class BackendModuleRendersTest extends FunctionalTestCase
         self::assertDoesNotMatchRegularExpression('/\{\d+\}/', $body, 'a label placeholder that was never filled');
         self::assertStringNotContainsString('f:uri.module', $body);
         self::assertStringContainsString($marker, $body, 'the screen rendered without its data');
+        foreach (self::preselected($body) as $select => $options) {
+            // selected="" is still selected: every option carried the attribute,
+            // and the browser showed the last one (2026-10-13).
+            self::assertLessThanOrEqual(1, \count($options), $select . ' preselects ' . implode(', ', $options));
+        }
+    }
+
+    /**
+     * @return iterable<string, array{string, array<string, string>, array<string, list<string>>}>
+     */
+    public static function preselections(): iterable
+    {
+        yield 'decision list, unfiltered' => ['listAction', [], ['scope' => [], 'type' => []]];
+        yield 'decision list, filtered' => ['listAction', ['scope' => 'Range', 'type' => 'ban'], ['scope' => ['Range'], 'type' => ['ban']]];
+        yield 'alert list, filtered' => ['alertListAction', ['scope' => 'Country'], ['scope' => ['Country']]];
+        yield 'new decision form' => ['newAction', [], ['durationPreset' => ['24h']]];
+    }
+
+    /**
+     * @param array<string, string>       $query
+     * @param array<string, list<string>> $expected
+     */
+    #[Test]
+    #[DataProvider('preselections')]
+    public function theFiltersShowWhatWasApplied(string $action, array $query, array $expected): void
+    {
+        $controller = $this->controller(true);
+        $request = $this->request($action, $query);
+        $response = match ($action) {
+            'listAction' => $controller->listAction($request),
+            'alertListAction' => $controller->alertListAction($request),
+            'newAction' => $controller->newAction($request),
+            default => throw new \LogicException('no such action: ' . $action),
+        };
+
+        $preselected = self::preselected((string) $response->getBody());
+        foreach ($expected as $select => $options) {
+            self::assertSame($options, $preselected[$select] ?? [], $select);
+        }
+    }
+
+    /**
+     * The values of the preselected options, by the name of their select.
+     *
+     * @return array<string, list<string>>
+     */
+    private static function preselected(string $body): array
+    {
+        $document = new \DOMDocument();
+        $document->loadHTML($body, \LIBXML_NOERROR | \LIBXML_NOWARNING);
+        $out = [];
+        foreach ($document->getElementsByTagName('select') as $select) {
+            $name = $select->getAttribute('name');
+            $out[$name] = [];
+            foreach ($select->getElementsByTagName('option') as $option) {
+                if ($option->hasAttribute('selected')) {
+                    $out[$name][] = $option->getAttribute('value');
+                }
+            }
+        }
+
+        return $out;
     }
 
     /**
