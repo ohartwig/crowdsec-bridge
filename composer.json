@@ -14,12 +14,8 @@
     "authors": [
         {
             "name": "Kai Ole Hartwig",
-            "email": "support@ole-hartwig.eu",
-            "role": "Maintainer"
-        },
-        {
-            "name": "Kai Ole Hartwig",
-            "email": "o.hartwig@ole-hartwig.eu",
+            "email": "mail@ole-hartwig.eu",
+            "homepage": "https://ole-hartwig.eu",
             "role": "Developer"
         }
     ],
