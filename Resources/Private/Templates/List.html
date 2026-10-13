@@ -97,17 +97,17 @@
             <label for="crowdsec-filter-scope"><f:translate extensionName="CrowdsecBridge" key="filter.scope_label"/></label>
             <select name="scope" id="crowdsec-filter-scope">
                 <option value=""><f:translate extensionName="CrowdsecBridge" key="filter.all_option"/></option>
-                <option value="Ip" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Ip\'', then: 'selected')}">Ip</option>
-                <option value="Range" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Range\'', then: 'selected')}">Range</option>
-                <option value="Country" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'Country\'', then: 'selected')}">Country</option>
-                <option value="As" selected="{f:if(condition: '{listView.appliedFilter.scope.value} == \'As\'', then: 'selected')}">As</option>
+                <option value="Ip"{f:if(condition: '{listView.appliedFilter.scope.value} == \'Ip\'', then: ' selected')}>Ip</option>
+                <option value="Range"{f:if(condition: '{listView.appliedFilter.scope.value} == \'Range\'', then: ' selected')}>Range</option>
+                <option value="Country"{f:if(condition: '{listView.appliedFilter.scope.value} == \'Country\'', then: ' selected')}>Country</option>
+                <option value="As"{f:if(condition: '{listView.appliedFilter.scope.value} == \'As\'', then: ' selected')}>As</option>
             </select>
 
             <label for="crowdsec-filter-type"><f:translate extensionName="CrowdsecBridge" key="filter.type_label"/></label>
             <select name="type" id="crowdsec-filter-type">
                 <option value=""><f:translate extensionName="CrowdsecBridge" key="filter.all_option"/></option>
-                <option value="ban" selected="{f:if(condition: '{listView.appliedFilter.type.value} == \'ban\'', then: 'selected')}">ban</option>
-                <option value="captcha" selected="{f:if(condition: '{listView.appliedFilter.type.value} == \'captcha\'', then: 'selected')}">captcha</option>
+                <option value="ban"{f:if(condition: '{listView.appliedFilter.type.value} == \'ban\'', then: ' selected')}>ban</option>
+                <option value="captcha"{f:if(condition: '{listView.appliedFilter.type.value} == \'captcha\'', then: ' selected')}>captcha</option>
             </select>
 
             <label for="crowdsec-filter-origin"><f:translate extensionName="CrowdsecBridge" key="filter.origin_label"/></label>
