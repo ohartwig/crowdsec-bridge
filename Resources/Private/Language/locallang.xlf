@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="EXT:crowdsec_bridge/Resources/Private/Language/locallang.xlf" date="2026-05-20T00:00:00Z" product-name="crowdsec_bridge">
+        <header/>
+        <body>
+            <!-- Module headline -->
+            <trans-unit id="module.title.list" resname="module.title.list">
+                <source>Active CrowdSec Decisions</source>
+                <target>Aktive CrowdSec-Decisions</target>
+            </trans-unit>
+
+            <!-- Status banner -->
+            <trans-unit id="status.connected" resname="status.connected">
+                <source>Connected — CrowdSec {0}, Bouncer: {1}</source>
+                <target>Verbunden — CrowdSec {0}, Bouncer: {1}</target>
+            </trans-unit>
+            <trans-unit id="status.connected_no_bouncer" resname="status.connected_no_bouncer">
+                <source>Connected — CrowdSec {0}</source>
+                <target>Verbunden — CrowdSec {0}</target>
+            </trans-unit>
+            <trans-unit id="status.unreachable" resname="status.unreachable">
+                <source>Not reachable — last attempt {0}</source>
+                <target>Nicht erreichbar — letzter Versuch {0}</target>
+            </trans-unit>
+            <trans-unit id="status.auth_failed" resname="status.auth_failed">
+                <source>Authentication failed — CrowdSec refused the machine account. Check machine id and password.</source>
+                <target>Authentifizierungsfehler — CrowdSec hat den Machine-Account abgewiesen. Machine-ID und Passwort prüfen.</target>
+            </trans-unit>
+            <trans-unit id="status.no_machine_account" resname="status.no_machine_account">
+                <source>No machine account configured — the heartbeat, the alerts tab and every write need one. The decisions list does not need one.</source>
+                <target>Kein Machine-Account konfiguriert — Heartbeat, Alerts-Reiter und alle Schreibvorgänge brauchen einen. Die Decision-Liste braucht keinen.</target>
+            </trans-unit>
+            <trans-unit id="status.invalid_response" resname="status.invalid_response">
+                <source>LAPI returned an unexpected response.</source>
+                <target>LAPI lieferte eine unerwartete Antwort.</target>
+            </trans-unit>
+            <trans-unit id="status.last_check" resname="status.last_check">
+                <source>Last check: {0}</source>
+                <target>Letzte Prüfung: {0}</target>
+            </trans-unit>
+            <trans-unit id="status.data_not_loaded" resname="status.data_not_loaded">
+                <source>Data could not be loaded.</source>
+                <target>Daten konnten nicht geladen werden.</target>
+            </trans-unit>
+
+            <!-- Decision table -->
+            <trans-unit id="table.header.id" resname="table.header.id">
+                <source>ID</source>
+                <target>ID</target>
+            </trans-unit>
+            <trans-unit id="table.header.scope" resname="table.header.scope">
+                <source>Scope</source>
+                <target>Scope</target>
+            </trans-unit>
+            <trans-unit id="table.header.type" resname="table.header.type">
+                <source>Type</source>
+                <target>Typ</target>
+            </trans-unit>
+            <trans-unit id="table.header.value" resname="table.header.value">
+                <source>Value</source>
+                <target>Wert</target>
+            </trans-unit>
+            <trans-unit id="table.header.remaining" resname="table.header.remaining">
+                <source>Remaining</source>
+                <target>Restlaufzeit</target>
+            </trans-unit>
+            <trans-unit id="table.header.origin" resname="table.header.origin">
+                <source>Origin</source>
+                <target>Herkunft</target>
+            </trans-unit>
+            <trans-unit id="table.header.scenario" resname="table.header.scenario">
+                <source>Scenario</source>
+                <target>Szenario</target>
+            </trans-unit>
+            <trans-unit id="scenario.unknown" resname="scenario.unknown">
+                <source>(unknown)</source>
+                <target>(unbekannt)</target>
+            </trans-unit>
+
+            <!-- Empty states -->
+            <trans-unit id="empty.no_decisions" resname="empty.no_decisions">
+                <source>No active decisions.</source>
+                <target>Keine aktiven Decisions.</target>
+            </trans-unit>
+            <trans-unit id="empty.no_filter_match" resname="empty.no_filter_match">
+                <source>No decisions match the current filter.</source>
+                <target>Keine Treffer für aktuelle Filter.</target>
+            </trans-unit>
+
+            <!-- Pagination -->
+            <trans-unit id="pagination.previous" resname="pagination.previous">
+                <source>Previous</source>
+                <target>Vorherige</target>
+            </trans-unit>
+            <trans-unit id="pagination.next" resname="pagination.next">
+                <source>Next</source>
+                <target>Nächste</target>
+            </trans-unit>
+            <trans-unit id="pagination.page_label" resname="pagination.page_label">
+                <source>Page {0}</source>
+                <target>Seite {0}</target>
+            </trans-unit>
+
+            <!-- Filter form -->
+            <trans-unit id="filter.scope_label" resname="filter.scope_label">
+                <source>Scope</source>
+                <target>Scope</target>
+            </trans-unit>
+            <trans-unit id="filter.type_label" resname="filter.type_label">
+                <source>Type</source>
+                <target>Typ</target>
+            </trans-unit>
+            <trans-unit id="filter.origin_label" resname="filter.origin_label">
+                <source>Origin</source>
+                <target>Herkunft</target>
+            </trans-unit>
+            <trans-unit id="filter.all_option" resname="filter.all_option">
+                <source>All</source>
+                <target>Alle</target>
+            </trans-unit>
+            <trans-unit id="filter.submit" resname="filter.submit">
+                <source>Apply filter</source>
+                <target>Filter anwenden</target>
+            </trans-unit>
+            <trans-unit id="filter.reset" resname="filter.reset">
+                <source>Reset filter</source>
+                <target>Filter zurücksetzen</target>
+            </trans-unit>
+
+            <!-- Quick check -->
+            <trans-unit id="quickcheck.headline" resname="quickcheck.headline">
+                <source>IP quick-check</source>
+                <target>IP-Schnellcheck</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.label" resname="quickcheck.label">
+                <source>Check IP address</source>
+                <target>IP-Adresse prüfen</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.placeholder" resname="quickcheck.placeholder">
+                <source>e.g. 203.0.113.42 or 2001:db8::1</source>
+                <target>z. B. 203.0.113.42 oder 2001:db8::1</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.submit" resname="quickcheck.submit">
+                <source>Check</source>
+                <target>Prüfen</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.banned" resname="quickcheck.banned">
+                <source>Banned — Decision #{0} ({1})</source>
+                <target>Gebannt — Decision #{0} ({1})</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.not_banned" resname="quickcheck.not_banned">
+                <source>No active decision for this IP.</source>
+                <target>Keine aktive Decision für diese IP.</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.invalid_ip" resname="quickcheck.invalid_ip">
+                <source>The provided value is not a valid IPv4 or IPv6 address.</source>
+                <target>Die Eingabe ist keine gültige IPv4- oder IPv6-Adresse.</target>
+            </trans-unit>
+            <trans-unit id="quickcheck.error_lapi" resname="quickcheck.error_lapi">
+                <source>Could not reach the LAPI to check this IP.</source>
+                <target>LAPI konnte für diese Prüfung nicht erreicht werden.</target>
+            </trans-unit>
+
+            <!-- Remaining time format -->
+            <trans-unit id="remaining_time.days_hours_minutes" resname="remaining_time.days_hours_minutes">
+                <source>{0}d {1}h {2}m left</source>
+                <target>noch {0}d {1}h {2}m</target>
+            </trans-unit>
+            <trans-unit id="remaining_time.hours_minutes" resname="remaining_time.hours_minutes">
+                <source>{1}h {2}m left</source>
+                <target>noch {1}h {2}m</target>
+            </trans-unit>
+            <trans-unit id="remaining_time.minutes" resname="remaining_time.minutes">
+                <source>{2}m left</source>
+                <target>noch {2}m</target>
+            </trans-unit>
+            <trans-unit id="remaining_time.expired" resname="remaining_time.expired">
+                <source>expired</source>
+                <target>abgelaufen</target>
+            </trans-unit>
+
+            <!-- Generic errors -->
+            <trans-unit id="error.lapi.parse" resname="error.lapi.parse">
+                <source>Response could not be processed.</source>
+                <target>Antwort konnte nicht verarbeitet werden.</target>
+            </trans-unit>
+            <trans-unit id="error.lapi.timeout" resname="error.lapi.timeout">
+                <source>Timeout while fetching data.</source>
+                <target>Zeitüberschreitung beim Abruf.</target>
+            </trans-unit>
+
+            <!-- ============ Feature 002: Write operations ============ -->
+
+            <!-- Action buttons in list view -->
+            <trans-unit id="action.add.button" resname="action.add.button">
+                <source>Add decision</source>
+                <target>Decision anlegen</target>
+            </trans-unit>
+            <trans-unit id="action.delete.button" resname="action.delete.button">
+                <source>Delete</source>
+                <target>Löschen</target>
+            </trans-unit>
+            <trans-unit id="table.foreign_origin_protected" resname="table.foreign_origin_protected">
+                <source>Foreign origin — protected</source>
+                <target>Fremder Origin — geschützt</target>
+            </trans-unit>
+
+            <!-- Add form -->
+            <trans-unit id="form.new.headline" resname="form.new.headline">
+                <source>Add new decision</source>
+                <target>Neue Decision anlegen</target>
+            </trans-unit>
+            <trans-unit id="form.field.scope" resname="form.field.scope">
+                <source>Scope</source>
+                <target>Scope</target>
+            </trans-unit>
+            <trans-unit id="form.field.type" resname="form.field.type">
+                <source>Type</source>
+                <target>Typ</target>
+            </trans-unit>
+            <trans-unit id="form.field.value" resname="form.field.value">
+                <source>Value</source>
+                <target>Wert</target>
+            </trans-unit>
+            <trans-unit id="form.field.duration" resname="form.field.duration">
+                <source>Duration</source>
+                <target>Dauer</target>
+            </trans-unit>
+            <trans-unit id="form.field.reason" resname="form.field.reason">
+                <source>Reason</source>
+                <target>Begründung</target>
+            </trans-unit>
+            <trans-unit id="form.duration.preset.1h" resname="form.duration.preset.1h">
+                <source>1 hour</source>
+                <target>1 Stunde</target>
+            </trans-unit>
+            <trans-unit id="form.duration.preset.24h" resname="form.duration.preset.24h">
+                <source>24 hours</source>
+                <target>24 Stunden</target>
+            </trans-unit>
+            <trans-unit id="form.duration.preset.7d" resname="form.duration.preset.7d">
+                <source>7 days</source>
+                <target>7 Tage</target>
+            </trans-unit>
+            <trans-unit id="form.duration.preset.30d" resname="form.duration.preset.30d">
+                <source>30 days</source>
+                <target>30 Tage</target>
+            </trans-unit>
+            <trans-unit id="form.duration.preset.custom" resname="form.duration.preset.custom">
+                <source>Custom</source>
+                <target>Eigene</target>
+            </trans-unit>
+            <trans-unit id="form.reason.help" resname="form.reason.help">
+                <source>5 to 1000 characters. Will be stored in the audit log.</source>
+                <target>5 bis 1000 Zeichen. Wird ins Audit-Log übernommen.</target>
+            </trans-unit>
+            <trans-unit id="form.submit" resname="form.submit">
+                <source>Create</source>
+                <target>Anlegen</target>
+            </trans-unit>
+            <trans-unit id="form.cancel" resname="form.cancel">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="form.confirm_duplicate" resname="form.confirm_duplicate">
+                <source>Create anyway</source>
+                <target>Trotzdem anlegen</target>
+            </trans-unit>
+
+            <!-- Delete confirmation modal -->
+            <trans-unit id="modal.delete.title" resname="modal.delete.title">
+                <source>Really delete decision?</source>
+                <target>Decision wirklich löschen?</target>
+            </trans-unit>
+            <trans-unit id="modal.delete.body" resname="modal.delete.body">
+                <source>Decision #{0} ({1}: {2}) will be removed irreversibly.</source>
+                <target>Decision #{0} ({1}: {2}) wird unwiderruflich entfernt.</target>
+            </trans-unit>
+            <trans-unit id="modal.delete.confirm" resname="modal.delete.confirm">
+                <source>Delete</source>
+                <target>Löschen</target>
+            </trans-unit>
+            <trans-unit id="modal.delete.cancel" resname="modal.delete.cancel">
+                <source>Cancel</source>
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="modal.delete.foreign_warning" resname="modal.delete.foreign_warning">
+                <source>Caution: This decision was created automatically by CrowdSec (origin={0}). Deleting it can degrade the protection.</source>
+                <target>Achtung: Diese Decision wurde von CrowdSec automatisch erzeugt (origin={0}). Eine Löschung kann die Schutzwirkung beeinträchtigen.</target>
+            </trans-unit>
+
+            <!-- Flash messages -->
+            <trans-unit id="flash.add.success" resname="flash.add.success">
+                <source>Decision created (alert #{0}).</source>
+                <target>Decision angelegt (Alert #{0}).</target>
+            </trans-unit>
+            <trans-unit id="flash.add.duplicate_warning" resname="flash.add.duplicate_warning">
+                <source>There are already {0} active decision(s) for this value. Create another one?</source>
+                <target>Für diesen Wert existieren bereits {0} aktive Decision(s). Trotzdem anlegen?</target>
+            </trans-unit>
+            <trans-unit id="flash.add.failed" resname="flash.add.failed">
+                <source>Decision could not be created. Details in System Log.</source>
+                <target>Decision konnte nicht angelegt werden. Details im System-Log.</target>
+            </trans-unit>
+            <trans-unit id="flash.delete.success" resname="flash.delete.success">
+                <source>Decision #{0} removed.</source>
+                <target>Decision #{0} entfernt.</target>
+            </trans-unit>
+            <trans-unit id="flash.delete.not_found" resname="flash.delete.not_found">
+                <source>Decision was already removed.</source>
+                <target>Decision war bereits entfernt.</target>
+            </trans-unit>
+            <trans-unit id="flash.delete.failed" resname="flash.delete.failed">
+                <source>Decision could not be removed. Details in System Log.</source>
+                <target>Decision konnte nicht entfernt werden. Details im System-Log.</target>
+            </trans-unit>
+            <trans-unit id="flash.delete.denied_origin" resname="flash.delete.denied_origin">
+                <source>This decision (origin={0}) cannot be deleted.</source>
+                <target>Diese Decision (origin={0}) darf nicht gelöscht werden.</target>
+            </trans-unit>
+            <trans-unit id="flash.error.csrf" resname="flash.error.csrf">
+                <source>The backend form token was invalid. Please reload the module.</source>
+                <target>Das Backend-Form-Token war ungültig. Bitte das Modul neu laden.</target>
+            </trans-unit>
+            <trans-unit id="flash.error.duplicate_submit" resname="flash.error.duplicate_submit">
+                <source>Operation is already in progress.</source>
+                <target>Vorgang läuft bereits.</target>
+            </trans-unit>
+            <trans-unit id="flash.error.forbidden" resname="flash.error.forbidden">
+                <source>You don't have permission for this action.</source>
+                <target>Sie haben für diese Aktion keine Berechtigung.</target>
+            </trans-unit>
+
+            <!-- Validation messages -->
+            <trans-unit id="validation.value.invalid_for_scope" resname="validation.value.invalid_for_scope">
+                <source>Value "{0}" is not valid for scope "{1}".</source>
+                <target>Wert "{0}" ist für Scope "{1}" ungültig.</target>
+            </trans-unit>
+            <trans-unit id="validation.reason.too_short" resname="validation.reason.too_short">
+                <source>Reason must contain at least 5 characters.</source>
+                <target>Begründung muss mindestens 5 Zeichen enthalten.</target>
+            </trans-unit>
+            <trans-unit id="validation.reason.too_long" resname="validation.reason.too_long">
+                <source>Reason must not exceed 1000 characters.</source>
+                <target>Begründung darf höchstens 1000 Zeichen enthalten.</target>
+            </trans-unit>
+            <trans-unit id="validation.duration.invalid" resname="validation.duration.invalid">
+                <source>Invalid duration format. Expected e.g. "24h" or "7d".</source>
+                <target>Ungültiges Dauer-Format. Erwartet z. B. "24h" oder "7d".</target>
+            </trans-unit>
+
+            <!-- ============ Feature 003: Alerts read-only ============ -->
+
+            <trans-unit id="tabs.decisions" resname="tabs.decisions">
+                <source>Decisions</source>
+                <target>Decisions</target>
+            </trans-unit>
+            <trans-unit id="tabs.alerts" resname="tabs.alerts">
+                <source>Alerts</source>
+                <target>Alerts</target>
+            </trans-unit>
+
+            <trans-unit id="alert.list.headline" resname="alert.list.headline">
+                <source>Current CrowdSec alerts</source>
+                <target>Aktuelle CrowdSec-Alerts</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.id" resname="alert.table.header.id">
+                <source>ID</source>
+                <target>ID</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.scenario" resname="alert.table.header.scenario">
+                <source>Scenario</source>
+                <target>Szenario</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.source_scope" resname="alert.table.header.source_scope">
+                <source>Source Scope</source>
+                <target>Quell-Scope</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.source_value" resname="alert.table.header.source_value">
+                <source>Source Value</source>
+                <target>Quell-Wert</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.created_at" resname="alert.table.header.created_at">
+                <source>Created at</source>
+                <target>Zeitpunkt</target>
+            </trans-unit>
+            <trans-unit id="alert.table.header.decision_count" resname="alert.table.header.decision_count">
+                <source>Decisions</source>
+                <target>Decisions</target>
+            </trans-unit>
+
+            <trans-unit id="alert.filter.scope_label" resname="alert.filter.scope_label">
+                <source>Scope</source>
+                <target>Scope</target>
+            </trans-unit>
+            <trans-unit id="alert.filter.scenario_label" resname="alert.filter.scenario_label">
+                <source>Scenario contains</source>
+                <target>Scenario enthält</target>
+            </trans-unit>
+            <trans-unit id="alert.filter.submit" resname="alert.filter.submit">
+                <source>Apply filter</source>
+                <target>Filter anwenden</target>
+            </trans-unit>
+            <trans-unit id="alert.filter.reset" resname="alert.filter.reset">
+                <source>Reset filter</source>
+                <target>Filter zurücksetzen</target>
+            </trans-unit>
+
+            <trans-unit id="alert.empty.no_alerts" resname="alert.empty.no_alerts">
+                <source>No alerts</source>
+                <target>Keine Alerts</target>
+            </trans-unit>
+            <trans-unit id="alert.empty.no_filter_match" resname="alert.empty.no_filter_match">
+                <source>No alerts match the current filter</source>
+                <target>Keine Treffer für aktuelle Filter</target>
+            </trans-unit>
+
+            <trans-unit id="alert.detail.headline" resname="alert.detail.headline">
+                <source>Alert detail</source>
+                <target>Alert-Detail</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.back_to_list" resname="alert.detail.back_to_list">
+                <source>Back to list</source>
+                <target>Zurück zur Liste</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source_section" resname="alert.detail.source_section">
+                <source>Source</source>
+                <target>Quelle</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.scope" resname="alert.detail.source.scope">
+                <source>Scope</source>
+                <target>Scope</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.value" resname="alert.detail.source.value">
+                <source>Value</source>
+                <target>Wert</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.ip" resname="alert.detail.source.ip">
+                <source>IP</source>
+                <target>IP</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.as_number" resname="alert.detail.source.as_number">
+                <source>AS number</source>
+                <target>AS-Nummer</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.as_name" resname="alert.detail.source.as_name">
+                <source>AS name</source>
+                <target>AS-Name</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.country" resname="alert.detail.source.country">
+                <source>Country</source>
+                <target>Land</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.source.geo" resname="alert.detail.source.geo">
+                <source>Geo (Lat/Lon)</source>
+                <target>Geo (Lat/Lon)</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.labels_section" resname="alert.detail.labels_section">
+                <source>Labels</source>
+                <target>Labels</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.decisions_section" resname="alert.detail.decisions_section">
+                <source>Linked decisions</source>
+                <target>Verknüpfte Decisions</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.no_decisions" resname="alert.detail.no_decisions">
+                <source>No decisions linked to this alert</source>
+                <target>Keine Decisions zu diesem Alert</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.decisions_overflow" resname="alert.detail.decisions_overflow">
+                <source>Further {0} decisions not shown — accessible via cscli</source>
+                <target>Weitere {0} Decisions nicht angezeigt — über cscli zugänglich</target>
+            </trans-unit>
+            <trans-unit id="alert.detail.not_found" resname="alert.detail.not_found">
+                <source>Alert was not found</source>
+                <target>Alert wurde nicht gefunden</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

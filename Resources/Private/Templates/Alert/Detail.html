@@ -1,0 +1,144 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:cb="http://typo3.org/ns/Koh/CrowdsecBridge/Presentation/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="Content">
+
+    <f:if condition="{notFound}">
+        <f:then>
+            <h1><f:translate extensionName="CrowdsecBridge" key="alert.detail.headline"/></h1>
+            <div class="alert alert-warning"><f:translate extensionName="CrowdsecBridge" key="alert.detail.not_found"/></div>
+            <p>
+                <a href="{returnToUrl}" class="btn btn-default">
+                    <f:translate extensionName="CrowdsecBridge" key="alert.detail.back_to_list"/>
+                </a>
+            </p>
+        </f:then>
+        <f:else>
+            <f:if condition="{alertDetailView}">
+                <f:then>
+                    <header class="crowdsec-detail-header">
+                        <h1>
+                            <f:translate extensionName="CrowdsecBridge" key="alert.detail.headline"/> #{alertDetailView.id}
+                        </h1>
+                        <p>
+                            <strong>
+                                <f:if condition="{alertDetailView.scenario}">
+                                    <f:then>{alertDetailView.scenario}</f:then>
+                                    <f:else><em><f:translate extensionName="CrowdsecBridge" key="scenario.unknown"/></em></f:else>
+                                </f:if>
+                            </strong>
+                            — <f:format.date format="Y-m-d H:i:s">{alertDetailView.createdAt}</f:format.date>
+                        </p>
+                        <p>
+                            <a href="{returnToUrl}" class="btn btn-default">
+                                ← <f:translate extensionName="CrowdsecBridge" key="alert.detail.back_to_list"/>
+                            </a>
+                        </p>
+                    </header>
+
+                    <!-- Source block -->
+                    <section class="crowdsec-alert-source">
+                        <h2><f:translate extensionName="CrowdsecBridge" key="alert.detail.source_section"/></h2>
+                        <dl>
+                            <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.scope"/></dt>
+                            <dd>{alertDetailView.source.scopeRaw}</dd>
+                            <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.value"/></dt>
+                            <dd><code>{alertDetailView.source.value}</code></dd>
+                            <f:if condition="{alertDetailView.source.ip}">
+                                <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.ip"/></dt>
+                                <dd><code>{alertDetailView.source.ip}</code></dd>
+                            </f:if>
+                            <f:if condition="{alertDetailView.source.asNumber}">
+                                <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.as_number"/></dt>
+                                <dd>AS{alertDetailView.source.asNumber}</dd>
+                            </f:if>
+                            <f:if condition="{alertDetailView.source.asName}">
+                                <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.as_name"/></dt>
+                                <dd>{alertDetailView.source.asName}</dd>
+                            </f:if>
+                            <f:if condition="{alertDetailView.source.country}">
+                                <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.country"/></dt>
+                                <dd>{alertDetailView.source.country}</dd>
+                            </f:if>
+                            <f:if condition="{alertDetailView.source.geo}">
+                                <dt><f:translate extensionName="CrowdsecBridge" key="alert.detail.source.geo"/></dt>
+                                <dd>{alertDetailView.source.latitude}, {alertDetailView.source.longitude}</dd>
+                            </f:if>
+                        </dl>
+                    </section>
+
+                    <!-- Labels -->
+                    <f:if condition="{alertDetailView.labels}">
+                        <section class="crowdsec-alert-labels">
+                            <h2><f:translate extensionName="CrowdsecBridge" key="alert.detail.labels_section"/></h2>
+                            <ul>
+                                <f:for each="{alertDetailView.labels}" as="label">
+                                    <li><strong>{label.key}:</strong> {label.value}</li>
+                                </f:for>
+                            </ul>
+                        </section>
+                    </f:if>
+
+                    <!-- Decisions -->
+                    <section class="crowdsec-alert-decisions">
+                        <h2><f:translate extensionName="CrowdsecBridge" key="alert.detail.decisions_section"/></h2>
+                        <f:if condition="{alertDetailView.decisions}">
+                            <f:then>
+                                <table class="crowdsec-table table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.id"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.scope"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.type"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.value"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.remaining"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.origin"/></th>
+                                            <th><f:translate extensionName="CrowdsecBridge" key="table.header.scenario"/></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <f:for each="{alertDetailView.decisions}" as="decision">
+                                            <tr>
+                                                <td>#{decision.id}</td>
+                                                <td>{decision.scope}</td>
+                                                <td>{decision.type}</td>
+                                                <td><code>{decision.value}</code></td>
+                                                <td>
+                                                    <cb:translate key="{decision.remainingTime.locallangKey}"
+                                                        arguments="{decision.remainingTime.templateArguments}"
+                                                    />
+                                                </td>
+                                                <td>{decision.origin}</td>
+                                                <td>
+                                                    <f:if condition="{decision.scenario}">
+                                                        <f:then><span title="{decision.scenario}">{decision.scenario}</span></f:then>
+                                                        <f:else><em class="text-muted"><f:translate extensionName="CrowdsecBridge" key="scenario.unknown"/></em></f:else>
+                                                    </f:if>
+                                                </td>
+                                            </tr>
+                                        </f:for>
+                                    </tbody>
+                                </table>
+                                <f:if condition="{alertDetailView.decisionsOverflow} > 0">
+                                    <div class="crowdsec-overflow-notice alert alert-info">
+                                        <cb:translate key="alert.detail.decisions_overflow" arguments="{0: alertDetailView.decisionsOverflow}"/>
+                                    </div>
+                                </f:if>
+                            </f:then>
+                            <f:else>
+                                <p class="text-muted"><f:translate extensionName="CrowdsecBridge" key="alert.detail.no_decisions"/></p>
+                            </f:else>
+                        </f:if>
+                    </section>
+                </f:then>
+                <f:else>
+                    <div class="alert alert-warning"><f:translate extensionName="CrowdsecBridge" key="status.data_not_loaded"/></div>
+                </f:else>
+            </f:if>
+        </f:else>
+    </f:if>
+
+</f:section>
+
+</html>

@@ -1,0 +1,23 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:asset.css identifier="crowdsec-bridge-module" href="EXT:crowdsec_bridge/Resources/Public/Css/crowdsec-bridge.css"/>
+
+<div class="crowdsec-bridge-module">
+
+    <nav class="crowdsec-tabs" role="tablist">
+        <a href="{be:moduleLink(route: 'system_crowdsec')}"
+           class="crowdsec-tabs__item {f:if(condition: '{activeTab} == \'decisions\' || !{activeTab}', then: 'crowdsec-tabs__item--active')}"
+           role="tab">
+            <f:translate extensionName="CrowdsecBridge" key="tabs.decisions"/>
+        </a>
+        <a href="{be:moduleLink(route: 'system_crowdsec.alerts')}"
+           class="crowdsec-tabs__item {f:if(condition: '{activeTab} == \'alerts\'', then: 'crowdsec-tabs__item--active')}"
+           role="tab">
+            <f:translate extensionName="CrowdsecBridge" key="tabs.alerts"/>
+        </a>
+    </nav>
+
+    <f:render section="Content"/>
+</div>
+
+</html>
