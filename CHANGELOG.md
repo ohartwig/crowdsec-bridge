@@ -1,3 +1,11 @@
+## [0.10.1](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.0...v0.10.1) (2026-10-14)
+
+### :repeat: Chores
+
+* **repo-templates:** sync ([0fc9d7c](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/0fc9d7ce730deec0c78234bc8e6734078a405e57))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.119 ([9581e2f](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/9581e2fde53849b0ff547051bd48d3f56601e3ff))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.118 ([6801e78](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/6801e78bfebfe59cce5e13a40173d4f2e9d9691c))
+
 ## [0.10.0] (2026-10-13)
 
 ### :boom: BREAKING CHANGES
