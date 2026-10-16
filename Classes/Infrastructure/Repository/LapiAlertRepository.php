@@ -37,11 +37,16 @@ final readonly class LapiAlertRepository implements AlertRepositoryInterface
      *
      * Pinned by Tests/Contract/LapiResponseShapeContractTest::
      * testAlertListDoesNotAcceptTheOffsetParameterTheBridgeSends().
+     *
+     * The limit is capped at Pagination::MAX_SNAPSHOT_ITEMS whatever page is
+     * asked for. The handler already clamps the page; this is the second lock
+     * on the same door, so that no caller of this repository can turn a page
+     * number into a full dump of the LAPI's alert table (AUD-002-F02).
      */
     public function findAlerts(AlertFilterSelection $filter, Pagination $pagination): array
     {
         $query = $filter->toLapiQueryParams();
-        $query['limit'] = (string) ($pagination->offset() + $pagination->pageSize());
+        $query['limit'] = (string) min($pagination->offset() + $pagination->pageSize(), Pagination::MAX_SNAPSHOT_ITEMS);
 
         $body = $this->lapi->get('/v1/alerts', $query);
 

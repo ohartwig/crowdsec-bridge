@@ -83,6 +83,70 @@ final class ListAlertsQueryHandlerTest extends TestCase
     }
 
     /**
+     * `?page=100000` on the alerts tab yields a capped request and a notice,
+     * not a full dump (AUD-002-F02, I-293): the repository is asked for the
+     * ceiling page and the view says the page was clamped.
+     */
+    public function testAPageBeyondTheCeilingIsClampedAndTheViewSaysSo(): void
+    {
+        $captured = new ListAlertsFilterCapture();
+        $handler = new ListAlertsQueryHandler($this->capturingRepository($captured, $this->buildAlerts(50)));
+
+        $view = $handler->handle(new ListAlertsQuery(page: 100000));
+
+        self::assertSame(Pagination::MAX_SNAPSHOT_PAGE, $captured->pagination?->currentPage);
+        self::assertSame(Pagination::MAX_SNAPSHOT_PAGE, $view->pagination->currentPage);
+        self::assertTrue($view->pageWasClamped);
+        self::assertFalse($view->hasMore(), 'a full page at the ceiling still offers no next link');
+    }
+
+    public function testAPageWithinTheCeilingIsPassedThroughUnchanged(): void
+    {
+        $captured = new ListAlertsFilterCapture();
+        $handler = new ListAlertsQueryHandler($this->capturingRepository($captured, $this->buildAlerts(50)));
+
+        $view = $handler->handle(new ListAlertsQuery(page: 7));
+
+        self::assertSame(7, $captured->pagination?->currentPage);
+        self::assertFalse($view->pageWasClamped);
+        self::assertTrue($view->hasMore());
+    }
+
+    public function testAPartialPageOffersNoNextLink(): void
+    {
+        $handler = new ListAlertsQueryHandler($this->repositoryReturning($this->buildAlerts(12)));
+
+        self::assertFalse($handler->handle(new ListAlertsQuery(page: 3))->hasMore());
+    }
+
+    /**
+     * @param list<Alert> $alerts
+     */
+    private function capturingRepository(ListAlertsFilterCapture $captured, array $alerts): AlertRepositoryInterface
+    {
+        return new class ($captured, $alerts) implements AlertRepositoryInterface {
+            /** @param list<Alert> $alerts */
+            public function __construct(
+                private readonly ListAlertsFilterCapture $captured,
+                private readonly array $alerts,
+            ) {}
+
+            public function findAlerts(AlertFilterSelection $filter, Pagination $pagination): array
+            {
+                $this->captured->filter = $filter;
+                $this->captured->pagination = $pagination;
+
+                return $this->alerts;
+            }
+
+            public function findAlertById(AlertId $id): ?Alert
+            {
+                return null;
+            }
+        };
+    }
+
+    /**
      * @return list<Alert>
      */
     private function buildAlerts(int $count): array
@@ -135,4 +199,6 @@ final class ListAlertsQueryHandlerTest extends TestCase
 final class ListAlertsFilterCapture
 {
     public ?AlertFilterSelection $filter = null;
+
+    public ?Pagination $pagination = null;
 }
