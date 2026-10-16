@@ -1,6 +1,12 @@
 /* Backend module styles for koh/crowdsec-bridge.
    Aligned with TYPO3 14 backend Bootstrap variables; no external CSS framework added. */
 
+/* Class names follow BEM (block__element--modifier), and the Fluid templates
+   under Resources/Private use them as written. stylelint-config-standard asks
+   for plain kebab-case, which BEM's "__" and "--" separators cannot satisfy;
+   only that one rule is switched off, every other standard rule still applies. */
+/* stylelint-disable selector-class-pattern */
+
 .crowdsec-bridge-module {
     padding: 0.5rem 1rem 2rem;
 }
@@ -74,7 +80,7 @@
 }
 
 .crowdsec-table td code {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgb(0 0 0 / 5%);
     padding: 0.1rem 0.35rem;
     border-radius: 0.2rem;
     font-size: 0.95em;
@@ -101,7 +107,7 @@
 .crowdsec-tabs {
     display: flex;
     gap: 0.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgb(0 0 0 / 10%);
     margin-bottom: 1rem;
 }
 
@@ -114,7 +120,7 @@
 }
 
 .crowdsec-tabs__item:hover {
-    background: rgba(0, 0, 0, 0.03);
+    background: rgb(0 0 0 / 3%);
 }
 
 .crowdsec-tabs__item--active {
@@ -136,7 +142,7 @@
 
 .crowdsec-alert-source dt {
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgb(0 0 0 / 70%);
 }
 
 .crowdsec-alert-source dd {
