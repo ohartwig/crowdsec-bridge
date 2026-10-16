@@ -1,3 +1,13 @@
+## [0.10.4](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.3...v0.10.4) (2026-10-16)
+
+### :repeat: Continuous Integrations
+
+* **links:** ignore the hosts the IPv6-only runners cannot reach ([5da5610](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/5da5610a10cc719da0bbc68797d45dff5901d9ed))
+
+### :repeat: Chores
+
+* **repo-templates:** sync ([8396fa7](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/8396fa7bf9a7b6842fefabd3d500c58c89c180d4))
+
 ## [0.10.3](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.1...v0.10.3) (2026-10-16)
 
 ### :bug: Fixes
