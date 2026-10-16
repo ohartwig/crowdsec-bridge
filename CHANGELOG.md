@@ -1,3 +1,17 @@
+## [0.10.5](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.4...v0.10.5) (2026-10-16)
+
+### :barber: Styles
+
+* **css:** plain kebab-case class names, so no rule is switched off ([7a7076d](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/7a7076deb52b99defb12ba693e7ae5962a344e1c))
+
+### :repeat: Continuous Integrations
+
+* check every link again, the runner can reach them ([83da367](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/83da367cf88808615065b5dc41f99d59e6c40071))
+
+### :repeat: Chores
+
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.141 ([3492705](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/34927058077b7d27e35fa5d4ad6c722bbb287b73))
+
 ## [0.10.4](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.3...v0.10.4) (2026-10-16)
 
 ### :repeat: Continuous Integrations
