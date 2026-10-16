@@ -3,7 +3,17 @@
 declare(strict_types=1);
 
 /**
- * Conditional DI bindings — Feature 004 decision-cache.
+ * Build-time wiring that Services.yaml cannot express.
+ *
+ * 1. The LAPI base URL parameter. `%env(default:crowdsec_bridge.default_base_url:
+ *    CROWDSEC_LAPI_BASE_URL)%` in Services.yaml falls back on this parameter
+ *    when the environment variable is not set. It is resolved here from the
+ *    extension setting `lapiBaseUrl` (Infrastructure\Http\LapiBaseUrl), so
+ *    the precedence is environment, then setting, then default. TYPO3 loads
+ *    Services.php before Services.yaml, which is why the parameter is set here
+ *    and not declared in the YAML: a YAML declaration would overwrite it.
+ *
+ * 2. Conditional DI bindings — Feature 004 decision-cache.
  *
  * Activates the CachedDecisionRepository decorator + KVS-backed invalidator when:
  *  (a) moselwal/keyvalue-store is installed (interface exists), AND
@@ -19,6 +29,7 @@ use Koh\CrowdsecBridge\Infrastructure\Cache\CacheBackendStateTracker;
 use Koh\CrowdsecBridge\Infrastructure\Cache\CachedDecisionRepository;
 use Koh\CrowdsecBridge\Infrastructure\Cache\CacheKeyBuilder;
 use Koh\CrowdsecBridge\Infrastructure\Cache\KeyValueStoreDecisionCacheInvalidator;
+use Koh\CrowdsecBridge\Infrastructure\Http\LapiBaseUrl;
 use Koh\CrowdsecBridge\Infrastructure\Repository\LapiDecisionRepository;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -26,6 +37,15 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 return static function (ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void {
+    $baseUrlSetting = null;
+    try {
+        $baseUrlSetting = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+            ->get(LapiBaseUrl::EXTENSION_KEY, LapiBaseUrl::SETTING_KEY);
+    } catch (Throwable) {
+        // Extension configuration not available yet (e.g. install phase) — the default applies.
+    }
+    $containerBuilder->setParameter('crowdsec_bridge.default_base_url', LapiBaseUrl::fromSettingOrDefault($baseUrlSetting));
+
     if (!interface_exists('Moselwal\\KeyValueStore\\KeyValueStoreInterface')) {
         return;
     }
