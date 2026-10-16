@@ -47,7 +47,7 @@ services:
 
   # ---------- LapiHttpClient explicit arguments ----------
   # The API key is resolved at runtime via LapiKeyResolver (Constitution principle IV).
-  # The baseUrl comes from the extension configuration in ext_conf_template.txt.
+  # The baseUrl is CROWDSEC_LAPI_BASE_URL, else the `lapiBaseUrl` setting, else the default (see Services.php).
 
   Koh\CrowdsecBridge\Infrastructure\Http\LapiKeyResolver: ~
   Koh\CrowdsecBridge\Infrastructure\Http\LapiMachineCredentialsResolver: ~
@@ -121,8 +121,9 @@ services:
   #   TYPO3\CMS\Core\Http\Client\GuzzleClientFactory given
   # — der Dienst liess sich nie instanziieren. Hier die Fabrik als Fabrik.
   # Since 0.9: through LapiHttpClientFactory, which trusts CROWDSEC_LAPI_CA_FILE
-  # for the LAPI connection alone when it is set, and otherwise hands out
-  # TYPO3's own client exactly as before.
+  # for the LAPI connection alone when it is set. Since 0.11 it also applies
+  # the `lapiTimeout` setting to every LAPI call (AUD-002-F01); the client is
+  # built from TYPO3's HTTP options the way TYPO3's own factory builds it.
   Koh\CrowdsecBridge\Infrastructure\Http\LapiHttpClientFactory: ~
   crowdsec_bridge.http_client:
     class: Psr\Http\Client\ClientInterface
@@ -133,15 +134,14 @@ services:
   Koh\CrowdsecBridge\Presentation\Backend\Controller\DecisionController:
     public: true
 
-parameters:
-  # Ein *Parameter*, kein env()-Vorgabewert. `%env(default:X:VAR)%` erwartet in
-  # X den Namen eines Container-Parameters, aus dem der Rueckfall kommt, wenn
-  # VAR nicht gesetzt ist. `env(X)` definiert dagegen den Vorgabewert einer
-  # Umgebungsvariablen namens X — etwas anderes, das hier nie gelesen wurde.
-  #
-  # Die Folge war kein Fehler beim Container-Bau, sondern beim ersten Zugriff:
-  # sobald LapiHttpClient instanziiert wurde und CROWDSEC_LAPI_BASE_URL nicht
-  # gesetzt war, warf der Container
-  #   Invalid env fallback in "default:crowdsec_bridge.default_base_url:…":
-  #   parameter "crowdsec_bridge.default_base_url" not found.
-  crowdsec_bridge.default_base_url: 'http://crowdsec:8080'
+# The parameter behind `%env(default:crowdsec_bridge.default_base_url:…)%` is
+# set in Services.php, not declared here: it is resolved from the extension
+# setting `lapiBaseUrl`, and TYPO3 loads Services.php before this file, so a
+# declaration here would overwrite it with a constant.
+#
+# Why a parameter at all: `%env(default:X:VAR)%` expects in X the name of a
+# container parameter to fall back on when VAR is unset; `env(X)` would define
+# the default of an environment variable named X, something never read here.
+# The symptom of getting this wrong is not a container build error but one on
+# first use: "Invalid env fallback … parameter not found" as soon as
+# LapiHttpClient is instantiated without CROWDSEC_LAPI_BASE_URL.
