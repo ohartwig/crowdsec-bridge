@@ -16,7 +16,18 @@ final readonly class AlertListView
         public array $alerts,
         public Pagination $pagination,
         public AlertFilterSelection $appliedFilter,
+        /** The requested page lay beyond Pagination::MAX_SNAPSHOT_PAGE and this is the ceiling instead. */
+        public bool $pageWasClamped = false,
     ) {}
+
+    /**
+     * Whether a "next" link makes sense: a full page, and not at the ceiling.
+     * Read by Fluid as `{alertListView.more}`.
+     */
+    public function hasMore(): bool
+    {
+        return $this->pagination->hasNextSnapshotPage(\count($this->alerts));
+    }
 
     public function isEmpty(): bool
     {

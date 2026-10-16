@@ -110,6 +110,33 @@ final class LapiAlertRepositoryTest extends TestCase
         );
     }
 
+    /**
+     * The second lock on the door the handler already closes: whatever page a
+     * caller builds, the LAPI is never asked for more than the ceiling. Before
+     * this, `?page=100000` asked for 5 000 050 alerts with their decisions and
+     * parsed them all to show fifty (AUD-002-F02).
+     */
+    #[Test]
+    public function theLimitNeverExceedsTheSnapshotCeiling(): void
+    {
+        $alerts = $this->repositoryAnswering([$this->alertBody()])->findAlerts(
+            new AlertFilterSelection(),
+            new Pagination(100000),
+        );
+
+        [, $query] = $this->requests[0];
+        self::assertSame((string) Pagination::MAX_SNAPSHOT_ITEMS, $query['limit']);
+        self::assertSame([], $alerts, 'an offset past the capped answer is an empty page, not an error');
+    }
+
+    #[Test]
+    public function theLastPageWithinTheCeilingAsksForExactlyTheCeiling(): void
+    {
+        $this->repositoryAnswering([])->findAlerts(new AlertFilterSelection(), Pagination::forSnapshot(50));
+
+        self::assertSame('2500', $this->requests[0][1]['limit']);
+    }
+
     #[Test]
     public function anEmptyAnswerYieldsNoAlerts(): void
     {

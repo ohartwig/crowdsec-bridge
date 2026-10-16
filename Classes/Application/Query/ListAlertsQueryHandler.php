@@ -18,7 +18,11 @@ final readonly class ListAlertsQueryHandler
     public function handle(ListAlertsQuery $query): AlertListView
     {
         $filter = new AlertFilterSelection($query->scope, $query->scenarioContains);
-        $pagination = new Pagination(max(1, $query->page));
+        // The alert endpoint pages by snapshot (see LapiAlertRepository), so
+        // the page number is clamped to the ceiling rather than passed through;
+        // the view says when that happened so the screen can say so too.
+        $pagination = Pagination::forSnapshot($query->page);
+        $pageWasClamped = $query->page > $pagination->currentPage;
 
         $alerts = $this->repository->findAlerts($filter, $pagination);
 
@@ -34,6 +38,6 @@ final readonly class ListAlertsQueryHandler
             $views[] = AlertView::fromAlert($alert);
         }
 
-        return new AlertListView($views, $pagination, $filter);
+        return new AlertListView($views, $pagination, $filter, $pageWasClamped);
     }
 }
