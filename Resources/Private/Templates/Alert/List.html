@@ -27,7 +27,7 @@
 
     <!-- Filter -->
     <section class="crowdsec-filter">
-        <form action="{be:moduleLink(route: 'system_crowdsec.alerts')}" method="get" class="crowdsec-filter__form">
+        <form action="{be:moduleLink(route: 'system_crowdsec.alerts')}" method="get" class="crowdsec-filter-form">
             <input type="hidden" name="token" value="{routeTokens.alerts}"/>
             <input type="hidden" name="page" value="1"/>
 
@@ -110,7 +110,7 @@
                                 <f:translate extensionName="CrowdsecBridge" key="pagination.previous"/>
                             </a>
                         </f:if>
-                        <span class="crowdsec-pagination__current">
+                        <span class="crowdsec-pagination-current">
                             <cb:translate key="pagination.page_label" arguments="{0: alertListView.pagination.currentPage}"/>
                         </span>
                         <f:if condition="{alertListView.more}">

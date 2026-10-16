@@ -36,7 +36,7 @@
                 </f:switch>
             </f:else>
         </f:if>
-        <small class="crowdsec-status__timestamp">
+        <small class="crowdsec-status-timestamp">
             <cb:translate key="status.last_check" arguments="{0: '{status.checkedAt -> f:format.date(format: \'Y-m-d H:i:s\')}'}"/>
         </small>
     </div>
@@ -44,7 +44,7 @@
     <!-- ============================== Quick-Check Panel ============================== -->
     <section class="crowdsec-quickcheck">
         <h2><f:translate extensionName="CrowdsecBridge" key="quickcheck.headline"/></h2>
-        <form action="{be:moduleLink(route: 'system_crowdsec.check')}" method="get" class="crowdsec-quickcheck__form">
+        <form action="{be:moduleLink(route: 'system_crowdsec.check')}" method="get" class="crowdsec-quickcheck-form">
             <input type="hidden" name="token" value="{routeTokens.check}"/>
             <label for="crowdsec-ip-input">
                 <f:translate extensionName="CrowdsecBridge" key="quickcheck.label"/>
@@ -90,7 +90,7 @@
 
     <!-- ============================== Filter Form ============================== -->
     <section class="crowdsec-filter">
-        <form action="{be:moduleLink(route: 'system_crowdsec')}" method="get" class="crowdsec-filter__form">
+        <form action="{be:moduleLink(route: 'system_crowdsec')}" method="get" class="crowdsec-filter-form">
             <input type="hidden" name="token" value="{routeTokens.list}"/>
             <input type="hidden" name="page" value="1"/>
 
@@ -226,7 +226,7 @@
                                 <f:translate extensionName="CrowdsecBridge" key="pagination.previous"/>
                             </a>
                         </f:if>
-                        <span class="crowdsec-pagination__current">
+                        <span class="crowdsec-pagination-current">
                             <cb:translate key="pagination.page_label" arguments="{0: listView.pagination.currentPage}"/>
                         </span>
                         <f:if condition="{listView.decisions -> f:count()} == 50">

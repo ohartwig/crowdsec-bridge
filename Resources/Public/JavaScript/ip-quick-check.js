@@ -6,7 +6,7 @@
     'use strict';
 
     const ipPattern = /^(?:(?:\d{1,3}\.){3}\d{1,3}|[0-9a-fA-F:]+)$/;
-    const form = document.querySelector('.crowdsec-quickcheck__form');
+    const form = document.querySelector('.crowdsec-quickcheck-form');
     if (!form) {
         return;
     }
