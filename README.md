@@ -185,8 +185,8 @@ Manage these values via **Admin Tools → Settings → Extension Configuration �
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `lapiBaseUrl` | string | `http://crowdsec:8080` | Full URL to the CrowdSec Local API. Must be reachable from the TYPO3 container. |
-| `lapiTimeout` | int | `5` | HTTP timeout in seconds for all LAPI calls. |
+| `lapiBaseUrl` | string | `http://crowdsec:8080` | Absolute http(s) URL of the CrowdSec Local API. Must be reachable from the TYPO3 container. The environment variable `CROWDSEC_LAPI_BASE_URL`, when set, takes precedence; an unparseable value counts as unset. |
+| `lapiTimeout` | int | `5` | Timeout in seconds for every LAPI call, connect and read. Valid range 1–120; out-of-range values fall back to the default (below) or are capped (above). |
 | `allowDeleteForeignDecisions` | bool | `0` | When `1`, **TYPO3 admins** (not regular operators) may also delete decisions created by CrowdSec or `cscli`. Regular `crowdsec_operator` members are never allowed to delete foreign decisions regardless of this setting. |
 | `cacheEnabled` | bool | `1` | Enable the decision-list cache. Requires `moselwal/keyvalue-store` to be installed; without it this setting has no effect. |
 | `cacheTtl` | int | `10` | Cache lifetime in seconds. Valid range 1–300; out-of-range values are clamped at construction time and a notice is logged. |
@@ -422,7 +422,7 @@ secrets, and avoid exposing either Redis or CrowdSec ports outside the internal 
 | Status banner reads *Authentication failed*, decisions list still works | CrowdSec refused the machine account: wrong id or password, or the machine was never validated | The heartbeat is a watcher route, so this is always about the machine account, never the bouncer key. Check the mounted credentials against `cscli machines list` |
 | Alerts tab empty and adding a decision fails, while the decisions list works | Same cause: those are all watcher routes | As above |
 | Status banner reads *Connected* but the decisions list shows *Data could not be loaded* | Bouncer API key invalid or missing — LAPI answers 403, which the module reports as a failed load | Generate a fresh key with `cscli bouncers add typo3-bridge` and update the configured secret source |
-| Status banner reads *Not reachable* | LAPI container down, network blocked, or wrong base URL | Verify `lapiBaseUrl` and run `curl http://crowdsec:8080/health` from the TYPO3 container (`/v1/heartbeat` needs a watcher token and would answer 401 even on a healthy LAPI) |
+| Status banner reads *Not reachable* | LAPI container down, network blocked, or wrong base URL | Verify `CROWDSEC_LAPI_BASE_URL` (or, without it, `lapiBaseUrl`) and run `curl http://crowdsec:8080/health` from the TYPO3 container (`/v1/heartbeat` needs a watcher token and would answer 401 even on a healthy LAPI) |
 | Delete button missing on a `typo3`-origin row | Current user is not in `crowdsec_operator` (or admin) | Add the user to the operator group or grant TYPO3 admin status |
 | Delete button missing on a foreign-origin row | Expected for non-admins; for admins the override flag is off | Set `allowDeleteForeignDecisions=1` for admins, or use `cscli decisions delete` |
 | Modal does not open when clicking *Delete* | Backend JavaScript modules not flushed | Run `vendor/bin/typo3 cache:flush` |

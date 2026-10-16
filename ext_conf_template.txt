@@ -1,7 +1,7 @@
-# cat=basic; type=string; label=LAPI Base URL:Full URL to the CrowdSec Local API (e.g. http://crowdsec:8080). Must be reachable from the TYPO3 container.
+# cat=basic; type=string; label=LAPI Base URL:Absolute http(s) URL of the CrowdSec Local API (e.g. http://crowdsec:8080). Must be reachable from the TYPO3 container. The environment variable CROWDSEC_LAPI_BASE_URL, when set, takes precedence over this setting.
 lapiBaseUrl = http://crowdsec:8080
 
-# cat=basic; type=int+; label=LAPI HTTP Timeout (seconds):Request timeout for all LAPI calls. Default 5 is safe for local Docker setups.
+# cat=basic; type=int+; label=LAPI HTTP Timeout (seconds):Timeout for every LAPI call, connect and read, 1-120 seconds. Values outside the range fall back to 5 (below) or are capped at 120 (above). Default 5 is safe for local Docker setups.
 lapiTimeout = 5
 
 # cat=advanced; type=boolean; label=Allow deleting non-typo3 decisions (admin only):If enabled, TYPO3 admins (not regular operators) can also delete decisions created by CrowdSec or cscli. Off by default. Regular operator users are never allowed to delete foreign decisions regardless of this setting.
