@@ -1,3 +1,36 @@
+## [0.10.2](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.1...v0.10.2) (2026-10-16)
+
+### :bug: Fixes
+
+* **alerts:** cap the alert list at fifty pages and the LAPI limit with it ([87923af](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/87923aff33fffad4c766572553583bff4e3e72d3))
+* **lapi:** read lapiBaseUrl and lapiTimeout, bound every LAPI call ([6ba4f2d](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/6ba4f2d62b333bf35b339eb3b9e33dc24e88ff70))
+
+### :repeat: Continuous Integrations
+
+* drop the TER publish, Packagist is enough ([f0d7455](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/f0d745561396e401f061dcdc5ac66a1908bca389))
+* publish releases to the TYPO3 Extension Repository ([a62982d](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/a62982d37b3e22f4720c50e21d4e3ea407100e25))
+
+### :repeat: Chores
+
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.139 ([f475f7b](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/f475f7b0d66c65ce2e0c279719914687182e10e1))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.138 ([a9e3393](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/a9e3393e61fef50c292846993a61879e1421a3bd))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.137 ([f4964eb](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/f4964ebd899c85adcf101daf4d214c83a47eccba))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.136 ([7d15ad3](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/7d15ad3d62bfbc7a5fec90c64f3c6cbe61a97903))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.135 ([be1ca5a](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/be1ca5a4b9386a7bf70c351831b2fbf25037c56e))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.134 ([c97b98d](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/c97b98df0c2d4573b6ac1510b99382d163d651c0))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.133 ([9a67eae](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/9a67eaeb0706fb5dce0aad76e6815871265dff25))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.132 ([10ca472](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/10ca472f84f74beb6194142078937f3ac0ecde4b))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.131 ([11dddcd](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/11dddcdb9d0a4d10ae428732edb99cb3c0567f30))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.129 ([cd5dd89](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/cd5dd89f16d7be4b8b349154547fdaac019f1ea4))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.128 ([defe8f9](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/defe8f9a029ab89ca9fed2b73ea8069c76916a2c))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.126 ([673433c](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/673433c89a80352a5ea9d7df8eca87231d5411eb))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.125 ([cad987f](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/cad987f45716a49c73765aaf3fd475614075539f))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.124 ([31ccd15](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/31ccd15ecffae55bdeb26575118602b6ecaf0313))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.123 ([c22f6e4](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/c22f6e482dfd23aa92e68e9b9f89be363be86c29))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.122 ([3d1c78c](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/3d1c78c271cf180fd5cdaac7bea2e3e7bbf0693e))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.121 ([4c2c0f0](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/4c2c0f0a9ef3e1d581990a8622e4265672542697))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.120 ([6a48c59](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/6a48c591c8a5a308092cdcda3e65eeff8119f703))
+
 ## [0.10.1](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.0...v0.10.1) (2026-10-14)
 
 ### :repeat: Chores
