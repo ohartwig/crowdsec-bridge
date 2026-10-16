@@ -55,6 +55,11 @@
     <!-- Table -->
     <f:if condition="{alertListView}">
         <f:then>
+            <f:if condition="{alertListView.pageWasClamped}">
+                <div class="crowdsec-page-capped alert alert-notice" role="status">
+                    <cb:translate key="alert.list.page_capped" arguments="{0: alertListView.pagination.currentPage}"/>
+                </div>
+            </f:if>
             <f:if condition="{alertListView.empty}">
                 <f:then>
                     <div class="crowdsec-empty alert alert-info">
@@ -108,7 +113,7 @@
                         <span class="crowdsec-pagination__current">
                             <cb:translate key="pagination.page_label" arguments="{0: alertListView.pagination.currentPage}"/>
                         </span>
-                        <f:if condition="{alertListView.alerts -> f:count()} == 50">
+                        <f:if condition="{alertListView.more}">
                             <a class="btn btn-default" href="{be:moduleLink(route: 'system_crowdsec.alerts', arguments: {page: alertListView.pagination.nextPage, scope: alertListView.appliedFilter.scope.value, scenario: alertListView.appliedFilter.scenarioContains})}">
                                 <f:translate extensionName="CrowdsecBridge" key="pagination.next"/>
                             </a>

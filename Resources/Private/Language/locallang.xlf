@@ -410,6 +410,10 @@
                 <source>No alerts</source>
                 <target>Keine Alerts</target>
             </trans-unit>
+            <trans-unit id="alert.list.page_capped" resname="alert.list.page_capped">
+                <source>The alert list shows at most {0} pages; showing page {0}. Narrow the filter to reach older alerts.</source>
+                <target>Die Alert-Liste zeigt höchstens {0} Seiten; Seite {0} wird angezeigt. Für ältere Alerts den Filter eingrenzen.</target>
+            </trans-unit>
             <trans-unit id="alert.empty.no_filter_match" resname="alert.empty.no_filter_match">
                 <source>No alerts match the current filter</source>
                 <target>Keine Treffer für aktuelle Filter</target>
