@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.4/phpunit.xsd"
     bootstrap="../vendor/autoload.php"
     cacheDirectory=".phpunit.cache"
     colors="true"
     failOnRisky="true"
     failOnWarning="true"
     beStrictAboutOutputDuringTests="true"
-    beStrictAboutTodoAnnotatedTests="true"
     beStrictAboutCoverageMetadata="true"
 >
+    <!--
+        Unit only. The Functional suite lives in FunctionalTests.xml, whose
+        bootstrap sets up the TYPO3 instance those tests need; under this
+        file's plain autoloader every functional test skipped itself and then
+        errored in tearDown. test:phpunit:unit runs "testsuite Unit" anyway,
+        but Infection runs every suite a configuration declares, so the
+        Functional entry here failed its initial test run.
+    -->
     <testsuites>
         <testsuite name="Unit">
             <directory>Unit</directory>
-        </testsuite>
-        <testsuite name="Functional">
-            <directory>Functional</directory>
         </testsuite>
     </testsuites>
     <source>
