@@ -41,7 +41,7 @@ final class SysLogWriteAuditLoggerTest extends TestCase
         $pool = $this->createMock(ConnectionPool::class);
         $pool->method('getConnectionForTable')->willReturn($connection);
 
-        new SysLogWriteAuditLogger($pool)->logWrite(new DecisionWriteAuditContext(
+        (new SysLogWriteAuditLogger($pool))->logWrite(new DecisionWriteAuditContext(
             action: DecisionWriteAction::Add,
             backendUserId: 7,
             backendUserName: 'admin',
@@ -74,7 +74,7 @@ final class SysLogWriteAuditLoggerTest extends TestCase
         $pool = $this->createMock(ConnectionPool::class);
         $pool->method('getConnectionForTable')->willReturn($connection);
 
-        new SysLogWriteAuditLogger($pool)->logWrite(new DecisionWriteAuditContext(
+        (new SysLogWriteAuditLogger($pool))->logWrite(new DecisionWriteAuditContext(
             action: DecisionWriteAction::Delete,
             backendUserId: 1,
             backendUserName: 'op',
@@ -100,7 +100,7 @@ final class SysLogWriteAuditLoggerTest extends TestCase
         $pool = $this->createMock(ConnectionPool::class);
         $pool->method('getConnectionForTable')->willReturn($connection);
 
-        new SysLogWriteAuditLogger($pool)->logWrite(new DecisionWriteAuditContext(
+        (new SysLogWriteAuditLogger($pool))->logWrite(new DecisionWriteAuditContext(
             action: DecisionWriteAction::WriteDenied,
             backendUserId: 5,
             backendUserName: 'viewer',
@@ -125,7 +125,7 @@ final class SysLogWriteAuditLoggerTest extends TestCase
         $pool = $this->createMock(ConnectionPool::class);
         $pool->method('getConnectionForTable')->willReturn($connection);
 
-        new SysLogWriteAuditLogger($pool)->logWrite(new DecisionWriteAuditContext(
+        (new SysLogWriteAuditLogger($pool))->logWrite(new DecisionWriteAuditContext(
             action: DecisionWriteAction::CsrfDenied,
             backendUserId: 5,
             backendUserName: 'attacker',

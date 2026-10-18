@@ -127,7 +127,7 @@ final class DecisionControllerGuardsTest extends TestCase
      */
     private static function bare(string $class): object
     {
-        return new \ReflectionClass($class)->newInstanceWithoutConstructor();
+        return (new \ReflectionClass($class))->newInstanceWithoutConstructor();
     }
 
     private function request(): ServerRequestInterface

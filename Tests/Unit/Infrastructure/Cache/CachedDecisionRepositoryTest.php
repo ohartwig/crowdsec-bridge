@@ -33,7 +33,7 @@ final class CachedDecisionRepositoryTest extends TestCase
         $repo = $this->repo($inner, $kvs, $tracker);
 
         // Seed the store with the *array* form the cache now uses (C6 refactor).
-        $key = new CacheKeyBuilder()->build(7, new FilterSelection(), new Pagination(1));
+        $key = (new CacheKeyBuilder())->build(7, new FilterSelection(), new Pagination(1));
         $kvs->set($key, [[
             'id' => 1,
             'scope' => 'Ip',
@@ -64,7 +64,7 @@ final class CachedDecisionRepositoryTest extends TestCase
 
         self::assertSame($expected, $result);
 
-        $key = new CacheKeyBuilder()->build(3, new FilterSelection(), new Pagination(1));
+        $key = (new CacheKeyBuilder())->build(3, new FilterSelection(), new Pagination(1));
         $stored = $kvs->getRaw($key);
         self::assertIsArray($stored, 'Cache must be populated after miss');
         self::assertIsArray($stored[0], 'C6: cache must store array form, not Decision objects');
@@ -82,7 +82,7 @@ final class CachedDecisionRepositoryTest extends TestCase
 
         // Seed cache with a payload that looks valid but has an unknown scope —
         // simulates a compromised or stale KVS entry.
-        $key = new CacheKeyBuilder()->build(1, new FilterSelection(), new Pagination(1));
+        $key = (new CacheKeyBuilder())->build(1, new FilterSelection(), new Pagination(1));
         $kvs->set($key, [[
             'id' => 1,
             'scope' => 'Galaxy',
