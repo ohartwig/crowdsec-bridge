@@ -114,7 +114,7 @@ final class LapiStatusRepositoryTest extends TestCase
             static fn(string $path): array => ['/v1/heartbeat' === $path ? 'ok' : 'unexpected' => true],
         );
 
-        $status = new LapiStatusRepository($client, new LapiResponseParser())
+        $status = (new LapiStatusRepository($client, new LapiResponseParser()))
             ->findStatus($this->checkedAt());
 
         self::assertTrue($status->isReachable, 'a heartbeat that answers at all means LAPI is up');
@@ -132,7 +132,7 @@ final class LapiStatusRepositoryTest extends TestCase
         $client = $this->createMock(LapiClientInterface::class);
         $client->method('get')->willReturn(['ok' => true]);
 
-        $status = new LapiStatusRepository($client, new LapiResponseParser(), 'edge-bouncer')
+        $status = (new LapiStatusRepository($client, new LapiResponseParser(), 'edge-bouncer'))
             ->findStatus($this->checkedAt());
 
         self::assertSame('edge-bouncer', $status->bouncerName);

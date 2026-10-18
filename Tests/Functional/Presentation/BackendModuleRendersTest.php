@@ -202,7 +202,7 @@ final class BackendModuleRendersTest extends FunctionalTestCase
         self::assertNotNull($route, $routeKey . ' is not registered');
         $server = ['HTTP_HOST' => 'localhost', 'SCRIPT_NAME' => '/typo3/index.php', 'REQUEST_URI' => '/typo3/module/system/crowdsec'];
 
-        return new ServerRequest('https://localhost/typo3/module/system/crowdsec', 'GET', 'php://input', [], $server)
+        return (new ServerRequest('https://localhost/typo3/module/system/crowdsec', 'GET', 'php://input', [], $server))
             ->withQueryParams($query)
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE)
             ->withAttribute('normalizedParams', NormalizedParams::createFromServerParams($server))

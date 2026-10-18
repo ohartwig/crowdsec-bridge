@@ -12,7 +12,7 @@ final class AlertFilterSelectionTest extends TestCase
 {
     public function testIsEmptyByDefault(): void
     {
-        self::assertTrue(new AlertFilterSelection()->isEmpty());
+        self::assertTrue((new AlertFilterSelection())->isEmpty());
     }
 
     public function testScopeOnlyNotEmpty(): void

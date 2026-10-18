@@ -87,7 +87,7 @@ final class LapiDecisionWriterTest extends TestCase
             },
         );
 
-        $id = new LapiDecisionWriter($client, self::clock())->add($this->draft());
+        $id = (new LapiDecisionWriter($client, self::clock()))->add($this->draft());
 
         self::assertSame(42, $id->toInt());
         self::assertNotNull($captured, 'the client must have been called');
@@ -114,7 +114,7 @@ final class LapiDecisionWriterTest extends TestCase
             },
         );
 
-        new LapiDecisionWriter($client, self::clock())->add($this->draft());
+        (new LapiDecisionWriter($client, self::clock()))->add($this->draft());
 
         self::assertIsArray($captured);
         $alert = $captured[0];
@@ -200,7 +200,7 @@ final class LapiDecisionWriterTest extends TestCase
             },
         );
 
-        self::assertTrue(new LapiDecisionWriter($client, self::clock())->delete(new DecisionId(42)));
+        self::assertTrue((new LapiDecisionWriter($client, self::clock()))->delete(new DecisionId(42)));
         self::assertSame('/v1/decisions/42', $captured);
     }
 
@@ -214,6 +214,6 @@ final class LapiDecisionWriterTest extends TestCase
         $client = $this->createMock(LapiClientInterface::class);
         $client->method('delete')->willReturn(false);
 
-        self::assertFalse(new LapiDecisionWriter($client, self::clock())->delete(new DecisionId(42)));
+        self::assertFalse((new LapiDecisionWriter($client, self::clock()))->delete(new DecisionId(42)));
     }
 }

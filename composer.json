@@ -26,7 +26,7 @@
         "security": "https://github.com/ohartwig/crowdsec-bridge/blob/main/SECURITY.md"
     },
     "require": {
-        "php": "^8.5.11",
+        "php": "^8.3",
         "moselwal/keyvalue-store": "^4.0",
         "psr/http-client": "^1.0.3",
         "psr/http-factory": "^1.1.0",

@@ -219,7 +219,7 @@ final readonly class DecisionController
             'status' => $status,
             'alertDetailView' => $alertDetailView,
             'notFound' => $notFound,
-            'returnToUrl' => new AlertsListReturnUrl($this->uriBuilder)->build($params),
+            'returnToUrl' => (new AlertsListReturnUrl($this->uriBuilder))->build($params),
             'activeTab' => 'alerts',
         ]);
     }
@@ -488,7 +488,7 @@ final readonly class DecisionController
             $this->flashMessenger->translate('module.title.list'),
         );
         $moduleTemplate->assignMultiple($variables);
-        $moduleTemplate->assign('routeTokens', new RouteTokens($this->uriBuilder)->for(['list' => self::MODULE_IDENTIFIER, 'check' => self::MODULE_IDENTIFIER . '.check', 'alerts' => self::MODULE_IDENTIFIER . '.alerts']));
+        $moduleTemplate->assign('routeTokens', (new RouteTokens($this->uriBuilder))->for(['list' => self::MODULE_IDENTIFIER, 'check' => self::MODULE_IDENTIFIER . '.check', 'alerts' => self::MODULE_IDENTIFIER . '.alerts']));
 
         return new HtmlResponse((string) $moduleTemplate->renderResponse($template)->getBody());
     }

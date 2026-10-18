@@ -56,7 +56,7 @@ final class FilterSelectionTest extends TestCase
     {
         self::assertSame(
             ['scope' => 'AS'],
-            new FilterSelection(scope: DecisionScope::As)->toLapiQueryParams(),
+            (new FilterSelection(scope: DecisionScope::As))->toLapiQueryParams(),
         );
     }
 

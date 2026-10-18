@@ -21,7 +21,7 @@ final class RouteTokensTest extends TestCase
             ['system_crowdsec.check', [], UriBuilder::ABSOLUTE_PATH, new Uri('/typo3/module/system/crowdsec/check?token=bbb&x=1')],
         ]);
 
-        $tokens = new RouteTokens($uriBuilder)->for(['list' => 'system_crowdsec', 'check' => 'system_crowdsec.check']);
+        $tokens = (new RouteTokens($uriBuilder))->for(['list' => 'system_crowdsec', 'check' => 'system_crowdsec.check']);
 
         self::assertSame(['list' => 'aaa', 'check' => 'bbb'], $tokens);
     }
@@ -32,6 +32,6 @@ final class RouteTokensTest extends TestCase
         $uriBuilder = $this->createMock(UriBuilder::class);
         $uriBuilder->method('buildUriFromRoute')->willReturn(new Uri('/typo3/module/system/crowdsec'));
 
-        self::assertSame(['list' => ''], new RouteTokens($uriBuilder)->for(['list' => 'system_crowdsec']));
+        self::assertSame(['list' => ''], (new RouteTokens($uriBuilder))->for(['list' => 'system_crowdsec']));
     }
 }
