@@ -141,23 +141,23 @@ final class DecisionDraftTest extends TestCase
      */
     public function testTheSourceCarriesAnIpOnlyForTheIpScope(): void
     {
-        $ipAlert = new DecisionDraft(
+        $ipAlert = (new DecisionDraft(
             DecisionScope::Ip,
             DecisionType::Ban,
             '203.0.113.99',
             Duration::fromHours(1),
             new Reason('Portscanner'),
-        )->toLapiPayload(self::createdAt())[0];
+        ))->toLapiPayload(self::createdAt())[0];
 
         self::assertSame('203.0.113.99', $ipAlert['source']['ip']);
 
-        $countryAlert = new DecisionDraft(
+        $countryAlert = (new DecisionDraft(
             DecisionScope::Country,
             DecisionType::Ban,
             'DE',
             Duration::fromHours(1),
             new Reason('Portscanner'),
-        )->toLapiPayload(self::createdAt())[0];
+        ))->toLapiPayload(self::createdAt())[0];
 
         self::assertArrayNotHasKey('ip', $countryAlert['source']);
         self::assertSame('DE', $countryAlert['source']['value']);
@@ -169,13 +169,13 @@ final class DecisionDraftTest extends TestCase
      */
     public function testTheAutonomousSystemScopeIsSentUppercased(): void
     {
-        $alert = new DecisionDraft(
+        $alert = (new DecisionDraft(
             DecisionScope::As,
             DecisionType::Ban,
             'AS64496',
             Duration::fromHours(1),
             new Reason('Portscanner'),
-        )->toLapiPayload(self::createdAt())[0];
+        ))->toLapiPayload(self::createdAt())[0];
 
         self::assertSame('AS', $alert['source']['scope']);
         self::assertSame('AS', $alert['decisions'][0]['scope']);

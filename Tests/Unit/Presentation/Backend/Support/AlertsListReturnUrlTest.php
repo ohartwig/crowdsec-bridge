@@ -26,7 +26,7 @@ final class AlertsListReturnUrlTest extends TestCase
             ->with('system_crowdsec.alerts', $expected)
             ->willReturn(new Uri('/typo3/module/system/crowdsec/alerts'));
 
-        self::assertSame('/typo3/module/system/crowdsec/alerts', new AlertsListReturnUrl($uriBuilder)->build($params));
+        self::assertSame('/typo3/module/system/crowdsec/alerts', (new AlertsListReturnUrl($uriBuilder))->build($params));
     }
 
     /**

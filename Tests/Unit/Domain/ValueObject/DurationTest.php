@@ -79,15 +79,15 @@ final class DurationTest extends TestCase
 
     public function testToSecondsForCompositeDuration(): void
     {
-        self::assertSame(5_400, new Duration('1h30m')->toSeconds());
-        self::assertSame(5_400, new Duration('1h30m0s')->toSeconds());
+        self::assertSame(5_400, (new Duration('1h30m'))->toSeconds());
+        self::assertSame(5_400, (new Duration('1h30m0s'))->toSeconds());
     }
 
     public function testCompositeWithSubSecondTailPreservesSecondPart(): void
     {
         // Sub-second units are still parsed (and ignored in toSeconds()), but the
         // duration as a whole must yield at least one second, otherwise C7 rejects it.
-        self::assertSame(1, new Duration('1s500ms')->toSeconds());
+        self::assertSame(1, (new Duration('1s500ms'))->toSeconds());
     }
 
     #[DataProvider('zeroOrSubSecondInputs')]

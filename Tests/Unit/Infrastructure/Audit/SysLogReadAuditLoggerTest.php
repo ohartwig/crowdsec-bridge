@@ -65,7 +65,7 @@ final class SysLogReadAuditLoggerTest extends TestCase
         $pool = $this->createMock(ConnectionPool::class);
         $pool->method('getConnectionForTable')->willReturn($connection);
 
-        new SysLogReadAuditLogger($pool)->logQuickCheck(new AuditContext(
+        (new SysLogReadAuditLogger($pool))->logQuickCheck(new AuditContext(
             backendUserId: 1,
             backendUserName: 'user',
             checkedIp: new IpAddress('198.51.100.5'),

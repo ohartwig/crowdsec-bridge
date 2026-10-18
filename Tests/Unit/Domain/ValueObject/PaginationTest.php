@@ -52,7 +52,7 @@ final class PaginationTest extends TestCase
         self::assertSame(3, $pagination->getNextPage());
         self::assertSame(1, $pagination->getPreviousPage());
         self::assertFalse($pagination->isFirstPage());
-        self::assertTrue(new Pagination(1)->isFirstPage());
+        self::assertTrue((new Pagination(1))->isFirstPage());
     }
 
     /**

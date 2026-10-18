@@ -51,7 +51,7 @@ final class LapiResponseShapeContractTest extends LapiContractTestCase
         $response = $this->sendAsWatcher('GET', '/v1/alerts?scope=Ip&limit=50');
         self::assertSame(200, $response->getStatusCode());
 
-        $alerts = new LapiResponseParser()->parseAlerts(self::decodeJsonArray($response), false);
+        $alerts = (new LapiResponseParser())->parseAlerts(self::decodeJsonArray($response), false);
 
         self::assertNotSame([], $alerts, 'GET /v1/alerts returned nothing after an alert was seeded.');
 
@@ -109,7 +109,7 @@ final class LapiResponseShapeContractTest extends LapiContractTestCase
         $response = $this->sendAsWatcher('GET', '/v1/alerts/' . $alertId);
         self::assertSame(200, $response->getStatusCode());
 
-        $alert = new LapiResponseParser()->parseAlert(self::decodeJsonArray($response), true);
+        $alert = (new LapiResponseParser())->parseAlert(self::decodeJsonArray($response), true);
 
         self::assertNotNull($alert);
         self::assertSame($alertId, $alert->id->toInt());
