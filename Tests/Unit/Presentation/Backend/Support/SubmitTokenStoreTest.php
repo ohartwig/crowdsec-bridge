@@ -158,7 +158,7 @@ final class SubmitTokenStoreTest extends TestCase
 
         $subject = new SubmitTokenStore($lockFactory);
         $user = $this->user();
-        $token = new SubmitTokenStore($this->lockFactory)->generate($user);
+        $token = (new SubmitTokenStore($this->lockFactory))->generate($user);
 
         self::assertFalse($subject->consume($user, $token));
     }
@@ -181,7 +181,7 @@ final class SubmitTokenStoreTest extends TestCase
 
         $subject = new SubmitTokenStore($lockFactory);
         $user = $this->user();
-        $token = new SubmitTokenStore($this->lockFactory)->generate($user);
+        $token = (new SubmitTokenStore($this->lockFactory))->generate($user);
 
         self::assertFalse($subject->consume($user, $token));
     }

@@ -20,13 +20,13 @@ final class ListViewFilteredTest extends TestCase
 {
     public function testDecisionListIsFilteredExactlyWhenAFilterIsApplied(): void
     {
-        self::assertFalse(new DecisionListView([], new Pagination(1), new FilterSelection())->isFiltered());
-        self::assertTrue(new DecisionListView([], new Pagination(1), new FilterSelection(DecisionScope::Ip))->isFiltered());
+        self::assertFalse((new DecisionListView([], new Pagination(1), new FilterSelection()))->isFiltered());
+        self::assertTrue((new DecisionListView([], new Pagination(1), new FilterSelection(DecisionScope::Ip)))->isFiltered());
     }
 
     public function testAlertListIsFilteredExactlyWhenAFilterIsApplied(): void
     {
-        self::assertFalse(new AlertListView([], new Pagination(1), new AlertFilterSelection())->isFiltered());
-        self::assertTrue(new AlertListView([], new Pagination(1), new AlertFilterSelection(DecisionScope::Ip))->isFiltered());
+        self::assertFalse((new AlertListView([], new Pagination(1), new AlertFilterSelection()))->isFiltered());
+        self::assertTrue((new AlertListView([], new Pagination(1), new AlertFilterSelection(DecisionScope::Ip)))->isFiltered());
     }
 }

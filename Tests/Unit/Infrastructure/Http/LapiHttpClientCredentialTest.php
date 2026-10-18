@@ -216,13 +216,13 @@ final class LapiHttpClientCredentialTest extends TestCase
     {
         $http = new RecordingPsr18Client(new Response(200, [], '[]'));
 
-        new LapiHttpClient(
+        (new LapiHttpClient(
             $http,
             new HttpFactory(),
             new HttpFactory(),
             new LapiKeyResolver($this->keyFile),
             'http://lapi:8080',
-        )->get('/v1/decisions');
+        ))->get('/v1/decisions');
 
         self::assertSame('bouncer-key', $http->requests[0]->getHeaderLine('X-Api-Key'));
     }

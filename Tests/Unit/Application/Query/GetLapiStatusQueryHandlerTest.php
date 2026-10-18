@@ -56,7 +56,7 @@ final class GetLapiStatusQueryHandlerTest extends TestCase
             }
         };
 
-        new GetLapiStatusQueryHandler($repo, $this->clock())->handle(new GetLapiStatusQuery());
+        (new GetLapiStatusQueryHandler($repo, $this->clock()))->handle(new GetLapiStatusQuery());
 
         self::assertNotNull($captured->checkedAt);
         self::assertSame($this->fixedNow()->getTimestamp(), $captured->checkedAt->getTimestamp());
