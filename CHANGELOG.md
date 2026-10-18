@@ -1,3 +1,19 @@
+## [0.10.6](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.5...v0.10.6) (2026-10-18)
+
+### :bug: Fixes
+
+* admit PHP 8.3 and test the floor on it ([5bb1fb3](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/5bb1fb3c4e4679c8067786754af08653dea45b60))
+
+### :repeat: Chores
+
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.148 ([c5eb6e9](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/c5eb6e9785fbd8eadab32e9008c4a4bd55fb522d))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.147 ([a59321f](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/a59321fea080b2ae193a70bba7c11b775982bd09))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.146 ([ce53821](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/ce53821256e2c9f4616437718330e0fb3324c7d1))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.145 ([5289baf](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/5289baf4600f54b3d101c02ced99c323629f0d71))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.144 ([3501a3e](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/3501a3eb233224bd014871f6e6356625851af7e6))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.143 ([74cf817](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/74cf8177a8e6eecc33f17ef0398ba198d5d0318e))
+* **deps:** update dependency registry.ole-hartwig.eu/devops/images/franken-php/ci to v3.1.142 ([83d6119](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/commit/83d61194b9e498b9e6bbe60f3dfd0a7022b836b1))
+
 ## [0.10.5](https://git.ole-hartwig.eu/ai-ready-platform/platform/crowdsec-bridge/compare/v0.10.4...v0.10.5) (2026-10-16)
 
 ### :barber: Styles
