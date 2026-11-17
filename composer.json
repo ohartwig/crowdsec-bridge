@@ -19,7 +19,7 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://ole-hartwig.eu/open-source",
+    "homepage": "https://ole-hartwig.eu/open-source/crowdsec-bridge",
     "support": {
         "issues": "https://github.com/ohartwig/crowdsec-bridge/issues",
         "source": "https://github.com/ohartwig/crowdsec-bridge",
